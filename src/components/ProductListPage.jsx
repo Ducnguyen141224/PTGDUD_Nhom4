@@ -53,7 +53,7 @@ export default function ProductListPage({ query = "" }) {
     const itemsPerPage = 12;
 
     const categories = useMemo(() => {
-        const set = new Set(productsData.map((p) => p.category));
+    const set = new Set(productsData.map((p) => p.category));
         return ["all", ...Array.from(set)];
     }, []);
 

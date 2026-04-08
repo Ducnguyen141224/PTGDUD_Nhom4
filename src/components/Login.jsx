@@ -36,7 +36,6 @@ export default function Login() {
 
   return (
     <div>
-      {/* Notification Toast */}
       {notification && (
         <div
           style={{
@@ -55,7 +54,6 @@ export default function Login() {
         </div>
       )}
 
-      {/* Login Section */}
       <div style={{
         minHeight: "70vh",
         display: "flex",
@@ -65,7 +63,6 @@ export default function Login() {
       }}>
         <div className="container">
           <div className="row align-items-center">
-            {/* Left Column */}
             <div className="col-md-6 mb-4 mb-md-0" style={{ textAlign: "center" }}>
               <h1 style={{
                 fontSize: "42px",
@@ -111,7 +108,6 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Right Column - Login Form */}
             <div className="col-md-6">
               <div style={{
                 backgroundColor: "white",
@@ -129,7 +125,6 @@ export default function Login() {
                 </h2>
 
                 <form onSubmit={handleLogin}>
-                  {/* Email Input */}
                   <div style={{ marginBottom: "20px" }}>
                     <label style={{
                       display: "block",
@@ -160,7 +155,6 @@ export default function Login() {
                     />
                   </div>
 
-                  {/* Password Input */}
                   <div style={{ marginBottom: "20px" }}>
                     <label style={{
                       display: "block",
@@ -191,7 +185,6 @@ export default function Login() {
                     />
                   </div>
 
-                  {/* Remember Checkbox */}
                   <div style={{
                     marginBottom: "20px",
                     display: "flex",
@@ -219,7 +212,6 @@ export default function Login() {
                     </label>
                   </div>
 
-                  {/* Buttons */}
                   <div className="row" style={{ marginBottom: "20px", gap: "10px" }}>
                     <div className="col-6">
                       <button
@@ -275,7 +267,6 @@ export default function Login() {
                     </div>
                   </div>
 
-                  {/* Forgot Password Link */}
                   <div style={{ marginBottom: "20px", textAlign: "center" }}>
                     <a href="#" style={{
                       color: "#E23E8C",
@@ -288,7 +279,6 @@ export default function Login() {
                     </a>
                   </div>
 
-                  {/* Terms & Conditions */}
                   <p style={{
                     fontSize: "12px",
                     color: "#666",
@@ -312,7 +302,6 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Success Modal */}
       {showSuccessModal && (
         <div style={{
           position: "fixed",
