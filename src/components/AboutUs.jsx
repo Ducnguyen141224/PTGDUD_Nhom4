@@ -3,21 +3,34 @@ import React, { useState } from "react";
 export default function AboutUs() {
   const [hoveredBox, setHoveredBox] = useState(null);
 
-  const getBoxStyle = (boxId) => ({
-    transform: hoveredBox === boxId ? "scale(1.05)" : "scale(1)",
-    transition: "transform 0.3s ease-in-out"
-  });
+  const getBoxStyle = (boxId) => {
+    const whiteBackgroundBoxes = ['sanxuat', '2', 'uytín', 'chatlüong', 'tuте'];
+    
+    let backgroundColor = '#fff';
+    let color = '333';
+    
+    if (hoveredBox === boxId && whiteBackgroundBoxes.includes(boxId)) {
+      backgroundColor = '#E23E8C';
+      color = '#fff';
+    }
+    
+    return {
+      backgroundColor,
+      transform: hoveredBox === boxId ? "scale(1.05)" : "scale(1)",
+      transition: "all 0.3s ease-in-out",
+      color: hoveredBox === boxId && whiteBackgroundBoxes.includes(boxId) ? color : 'inherit'
+    };
+  };
 
   return (
     <div>
-      <div className="container" style={{ marginTop: "30px", marginBottom: "50px" }}>
+      <div className="container about-header">
         <div className="row align-items-center">
           <div className="col-md-6 text-center mb-4 mb-md-0">
             <img 
               src="/IMG/logoQuangba.png" 
-              className="img-fluid" 
+              className="img-fluid about-header-image"
               alt="Thương Hiệu PinkyCloud"
-              style={{ maxWidth: "100%", height: "auto" }}
             />
           </div>
 
@@ -69,20 +82,22 @@ export default function AboutUs() {
                 }}>
                   ❯
                 </span>
-                <h5 style={{
+              <h5 style={{
                   fontSize: "28px",
                   fontWeight: "bold",
-                  color: "#333",
-                  margin: 0
+                  color: hoveredBox === 'sanxuat' ? "#fff" : "#333",
+                  margin: 0,
+                  transition: "color 0.3s ease-in-out"
                 }}>
                   100% SẢN XUẤT TẠI VIỆT NAM
                 </h5>
               </div>
               <p style={{
                 fontSize: "15px",
-                color: "#666",
+                color: hoveredBox === 'sanxuat' ? "#fff" : "#666",
                 lineHeight: "1.6",
-                marginLeft: "39px"
+                marginLeft: "39px",
+                transition: "color 0.3s ease-in-out"
               }}>
                 Tất cả sản phẩm tại PinkyCloud đều tuyển chọn kỹ lưỡng, phân phối chính hãng. Chúng tôi tự hào là thương hiệu Việt, đồng hành cùng vẻ đẹp của phụ nữ Việt Nam.
               </p>
@@ -113,19 +128,22 @@ export default function AboutUs() {
                 <h5 style={{
                   fontSize: "28px",
                   fontWeight: "bold",
-                  color: "#333",
-                  margin: 0
+                  color: hoveredBox === '2' ? "#fff" : "#333",
+                  margin: 0,
+                  transition: "color 0.3s ease-in-out"
                 }}>
                   HÀI LÒNG KHÁCH HÀNG
                 </h5>
               </div>
               <p style={{
                 fontSize: "15px",
-                color: "#666",
+                color: hoveredBox === '2' ? "#fff" : "#666",
                 lineHeight: "1.6",
-                marginLeft: "39px"
+                marginLeft: "39px",
+                transition: "color 0.3s ease-in-out"
               }}>
-                Luôn có mặt khi khách hàng cần. Luôn lắng nghe khi khách hàng nói. Luôn cố gắng đáp ứng mọi nhu cầu của khách hàng.
+                Luôn có mặt khi khách hàng cần. Luôn lắng nghe khi khách hàng nói. Luôn cố gắng đáp ứng mọi nhu cầu của khách hàng.      
+                Chúng tôi không ngừng nỗ lực để mang đến trải nghiệm mua sắm tốt nhất cho khách hàng.
               </p>
             </div>
           </div>
@@ -178,15 +196,17 @@ export default function AboutUs() {
                 <h4 style={{
                   fontSize: "50px",
                   fontWeight: "bold",
-                  color: "#E23E8C",
-                  marginBottom: "15px"
+                  color: hoveredBox === 'uytín' ? "#fff" : "#E23E8C",
+                  marginBottom: "15px",
+                  transition: "color 0.3s ease-in-out"
                 }}>
                   Uy Tín
                 </h4>
                 <p style={{
                   fontSize: "14px",
-                  color: "#666",
-                  lineHeight: "1.6"
+                  color: hoveredBox === 'uytín' ? "#fff" : "#666",
+                  lineHeight: "1.6",
+                  transition: "color 0.3s ease-in-out"
                 }}>
                   Uy tín với triết lý kinh doanh của công ty, với khách hàng, với đối tác, với cộng sự. Uy tín trong từng giao dịch và từng sản phẩm.
                 </p>
@@ -212,15 +232,17 @@ export default function AboutUs() {
                 <h4 style={{
                   fontSize: "50px",
                   fontWeight: "bold",
-                  color: "#E23E8C",
-                  marginBottom: "15px"
+                  color: hoveredBox === 'chatlüong' ? "#fff" : "#E23E8C",
+                  marginBottom: "15px",
+                  transition: "color 0.3s ease-in-out"
                 }}>
                   Chất Lượng
                 </h4>
                 <p style={{
                   fontSize: "14px",
-                  color: "#666",
-                  lineHeight: "1.6"
+                  color: hoveredBox === 'chatlüong' ? "#fff" : "#666",
+                  lineHeight: "1.6",
+                  transition: "color 0.3s ease-in-out"
                 }}>
                   Sản phẩm tung ra thị trường phải là những sản phẩm chất lượng nhất, được làm ra từ khối óc và bàn tay người Việt Nam.
                 </p>
@@ -246,15 +268,17 @@ export default function AboutUs() {
                 <h4 style={{
                   fontSize: "50px",
                   fontWeight: "bold",
-                  color: "#E23E8C",
-                  marginBottom: "15px"
+                  color: hoveredBox === 'tuте' ? "#fff" : "#E23E8C",
+                  marginBottom: "15px",
+                  transition: "color 0.3s ease-in-out"
                 }}>
                   Tử Tế
                 </h4>
                 <p style={{
                   fontSize: "14px",
-                  color: "#666",
-                  lineHeight: "1.6"
+                  color: hoveredBox === 'tuте' ? "#fff" : "#666",
+                  lineHeight: "1.6",
+                  transition: "color 0.3s ease-in-out"
                 }}>
                   Tử tế với khách hàng, với cộng sự, với đối tác và xã hội. Tôn trọng các tiêu chuẩn đã được thiết lập.
                 </p>
@@ -295,13 +319,14 @@ export default function AboutUs() {
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  backgroundColor: "rgba(231, 62, 140, 0.8)",
+                  backgroundColor: hoveredBox === 'mission' ? "rgba(200, 40, 120, 1)" : "rgba(231, 62, 140, 0.8)",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
                   padding: "20px",
-                  textAlign: "center"
+                  textAlign: "center",
+                  transition: "background-color 0.3s ease-in-out"
                 }}>
                   <h3 style={{
                     fontSize: "48px",
@@ -349,13 +374,14 @@ export default function AboutUs() {
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  backgroundColor: "rgba(231, 62, 140, 0.8)",
+                  backgroundColor: hoveredBox === 'vision' ? "rgba(200, 40, 120, 1)" : "rgba(231, 62, 140, 0.8)",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
                   padding: "20px",
-                  textAlign: "center"
+                  textAlign: "center",
+                  transition: "background-color 0.3s ease-in-out"
                 }}>
                   <h3 style={{
                     fontSize: "48px",
