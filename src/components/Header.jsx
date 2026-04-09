@@ -1,4 +1,5 @@
-import React from "react";
+﻿import React from "react";
+import { Link, NavLink } from "react-router-dom";
 import "../css/Header.css";
 
 export default function Header({ searchValue = "", onSearchChange = () => {} }) {
@@ -6,22 +7,22 @@ export default function Header({ searchValue = "", onSearchChange = () => {} }) 
     <header className="site-header">
       <div className="container d-flex justify-content-between align-items-center py-3 header-top">
         <div className="logo">
-          <a href="/" className="logo-link">
+          <Link to="/" className="logo-link">
             <img src="/IMG/logo.jpg" alt="PinkyCloud" className="header-logo" />
-          </a>
+          </Link>
         </div>
 
         <div className="header-center-brand">
           <div className="header-brand-tag">
-            MỸ PHẨM CHÍNH HÃNG • CHĂM SÓC DA CAO CẤP
+            MY PHAM CHINH HANG • CHAM SOC DA CAO CAP
           </div>
           <div className="header-brand-subtitle">
-            Nâng tầm trải nghiệm làm đẹp mỗi ngày
+            Nang tam trai nghiem lam dep moi ngay
           </div>
         </div>
 
         <div className="d-flex align-items-center gap-3 header-social-wrap">
-          <span className="social-text">Theo dõi chúng tôi</span>
+          <span className="social-text">Theo doi chung toi</span>
 
           <div className="d-flex gap-2 social-list">
             <a href="#" className="social-link">
@@ -43,11 +44,31 @@ export default function Header({ searchValue = "", onSearchChange = () => {} }) 
       <div className="container">
         <div className="main-menu-bar d-flex align-items-center justify-content-between px-4 py-2">
           <ul className="nav d-none d-lg-flex gap-4 m-0 header-menu-list">
-            <li><a href="/" className="menu-link active">TRANG CHỦ</a></li>
-            <li><a href="#" className="menu-link">VỀ CHÚNG TÔI</a></li>
-            <li><a href="#" className="menu-link">BỘ SƯU TẬP</a></li>
-            <li><a href="#" className="menu-link">ĐĂNG NHẬP & ĐĂNG KÝ</a></li>
-            <li><a href="#" className="menu-link">LIÊN HỆ</a></li>
+            <li>
+              <NavLink to="/" end className="menu-link">
+                TRANG CHU
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/about" className="menu-link">
+                VE CHUNG TOI
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/san-pham" className="menu-link">
+                BO SUU TAP
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/login" className="menu-link">
+                DANG NHAP & DANG KY
+              </NavLink>
+            </li>
+            <li>
+              <a href="/#office" className="menu-link">
+                LIEN HE
+              </a>
+            </li>
           </ul>
 
           <div className="d-flex align-items-center gap-4 header-actions">
@@ -55,11 +76,13 @@ export default function Header({ searchValue = "", onSearchChange = () => {} }) 
               <input
                 type="text"
                 className="search-input"
-                placeholder="Nhập từ khóa bạn cần tìm kiếm..."
+                placeholder="Nhap tu khoa ban can tim kiem..."
                 value={searchValue}
                 onChange={(e) => onSearchChange(e.target.value)}
               />
-              <button className="search-icon-btn">🔍</button>
+              <button type="button" className="search-icon-btn">
+                🔍
+              </button>
             </div>
 
             <a href="#" className="cart-icon">🛒</a>
