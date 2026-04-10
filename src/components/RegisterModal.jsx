@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { registerUser, isContactTaken } from "../utils/userStorage";
+import { registerUser, isContactTaken } from "../hooks/userStorage";
 
 function generateCaptcha() {
   const chars = "abcdefghjkmnpqrstuvwxyz23456789";

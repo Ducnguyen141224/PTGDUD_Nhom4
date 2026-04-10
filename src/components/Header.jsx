@@ -1,13 +1,34 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../css/Header.css";
 import { useCart } from "./CartContext";
 import megaMenuData from "../data/megaMenu.json";
+import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
 
 export default function Header({ searchValue = "", onSearchChange = () => {} }) {
-  const { cartCount } = useCart();
+  const { cartCount, login } = useCart();
   const [showMegaMenu, setShowMegaMenu] = useState(false);
   const [navExpanded, setNavExpanded] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+
+  const openLogin = () => {
+    setShowRegisterModal(false);
+    setShowLoginModal(true);
+    setNavExpanded(false);
+  };
+
+  const openRegister = () => {
+    setShowLoginModal(false);
+    setShowRegisterModal(true);
+    setNavExpanded(false);
+  };
+
+  const handleLoginSuccess = (userInfo) => {
+    login(userInfo || {});
+    setShowLoginModal(false);
+  };
 
   return (
     <header className="site-header">
@@ -133,14 +154,21 @@ export default function Header({ searchValue = "", onSearchChange = () => {} }) 
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/login" className="nav-link menu-link" onClick={() => setNavExpanded(false)}>
+                <NavLink
+                  to="/login"
+                  className="nav-link menu-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openLogin();
+                  }}
+                >
                   ĐĂNG NHẬP & ĐĂNG KÝ
                 </NavLink>
               </li>
               <li className="nav-item">
-                <a href="/#office" className="nav-link menu-link" onClick={() => setNavExpanded(false)}>
+                <NavLink to="/lien-he" className="nav-link menu-link" onClick={() => setNavExpanded(false)}>
                   LIÊN HỆ
-                </a>
+                </NavLink>
               </li>
             </ul>
 
@@ -180,6 +208,18 @@ export default function Header({ searchValue = "", onSearchChange = () => {} }) 
           </div>
         </nav>
       </div>
+
+      <LoginModal
+        show={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLoginSuccess={handleLoginSuccess}
+        onSwitchToRegister={openRegister}
+      />
+      <RegisterModal
+        show={showRegisterModal}
+        onClose={() => setShowRegisterModal(false)}
+        onSwitchToLogin={openLogin}
+      />
     </header>
   );
 }

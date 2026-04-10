@@ -11,6 +11,9 @@ import CartPage from "./pages/CartPage";
 import AboutUs from "./components/AboutUs";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import PolicyPage from "./pages/PolicyPage";
+import ContactPage from "./pages/ContactPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -26,9 +29,15 @@ export default function App() {
             <Route path="/san-pham" element={<ProductListPage query={query} />} />
             <Route path="/san-pham/:id" element={<ProductDetailPage />} />
             <Route path="/gio-hang" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/thanh-toan" element={<CheckoutPage />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/chinh-sach" element={<PolicyPage />} />
+            <Route path="/chinh-sach/:slug" element={<PolicyPage />} />
+            <Route path="/lien-he" element={<ContactPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/tin-tuc/:slug" element={<NewsDetailPage />} />
             <Route path="*" element={<HomePage />} />
           </Routes>
