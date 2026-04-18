@@ -2,9 +2,9 @@
 import { Link, NavLink } from "react-router-dom";
 import "../css/Header.css";
 import { useCart } from "./CartContext";
-import megaMenuData from "../data/megaMenu.json";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
+import useFetch from "../hooks/useFetch";
 
 export default function Header({
   searchValue = "",
@@ -25,6 +25,8 @@ export default function Header({
   const [navExpanded, setNavExpanded] = useState(false);   // Bật/tắt menu trên mobile
   const [showLoginModal, setShowLoginModal] = useState(false);       // Hiện/ẩn bảng Đăng nhập
   const [showRegisterModal, setShowRegisterModal] = useState(false); // Hiện/ẩn bảng Đăng ký
+  const { data: megaMenuDataSource } = useFetch("/api/mega-menu");
+  const megaMenuData = Array.isArray(megaMenuDataSource) ? megaMenuDataSource : [];
 
   // Hàm mở bảng Đăng nhập và đóng bảng Đăng ký
   const openLogin = () => {

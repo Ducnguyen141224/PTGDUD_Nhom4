@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
-import addressData from "../data/vietnamAddress.json";
-
-const provinces = Object.keys(addressData);
-
-function getDistricts(province) {
-  if (!province || !addressData[province]) return [];
-  return Object.keys(addressData[province]);
-}
-
-function getWards(province, district) {
-  if (!province || !district) return [];
-  return addressData[province]?.[district] || [];
-}
+import useFetch from "../hooks/useFetch";
 
 // editData: truyền vào khi muốn chỉnh sửa địa chỉ đã có (không truyền = thêm mới)
 export default function AddressModal({ show, onClose, onSave, editData = null }) {
+  const { data: addressDataSource } = useFetch("/api/vietnam-addresses");
+  const addressData = addressDataSource && typeof addressDataSource === "object"
+    ? addressDataSource
+    : {};
+  const provinces = Object.keys(addressData);
+
+  function getDistricts(province) {
+    if (!province || !addressData[province]) return [];
+    return Object.keys(addressData[province]);
+  }
+
+  function getWards(province, district) {
+    if (!province || !district) return [];
+    return addressData[province]?.[district] || [];
+  }
+
   const [phone, setPhone] = useState("");
   const [fullName, setFullName] = useState("");
   const [province, setProvince] = useState("");

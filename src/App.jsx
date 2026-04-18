@@ -15,11 +15,13 @@ import PolicyPage from "./pages/PolicyPage";
 import ContactPage from "./pages/ContactPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
-import newsItems from "./data/newsItems.json";
+import useFetch from "./hooks/useFetch";
 
 export default function App() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const { data: newsItemsData } = useFetch("/api/news-items");
+  const newsItems = Array.isArray(newsItemsData) ? newsItemsData : [];
 
   const handleSearchSubmit = (rawKeyword = "") => {
     const keyword = rawKeyword.trim().toLowerCase();
