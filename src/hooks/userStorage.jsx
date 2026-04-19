@@ -1,115 +1,98 @@
-
-
-const USERS_KEY = "pinkycloud_users";
-
 // Tài khoản Admin mặc định để phục vụ việc kiểm thử trang Quản trị
-const DEFAULT_ADMIN = {
-  id: "admin-local",
-  contact: "admin@pinkycloud.vn",
-  email: "admin@pinkycloud.vn",
-  phone: "",
-  password: "Admin@123",
-  name: "Quản trị viên",
-  gender: "khong_xac_dinh",
-  dob: "",
-  role: "admin", // Quyền cao nhất
-  createdAt: "2026-04-13T00:00:00.000Z",
-};
 
 /**
- * Lấy danh sách người dùng từ LocalStorage.
- * Nếu chưa có Admin, tự động thêm Admin vào danh sách.
+ * Hàm bổ trợ gọi API backend và trả về dữ liệu JSON.
+ * Tự động xử lý lỗi và thiết lập Header mặc định.
  */
-export const getUsers = () => {
-  try {
-    const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+async function apiRequest(path, options = {}) {
+  const response = await fetch(path, {
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+    ...options,
+  });
 
-    // Kiểm tra xem tài khoản admin mặc định đã tồn tại trong danh sách chưa
-    if (users.some((user) => user.contact?.toLowerCase() === DEFAULT_ADMIN.contact)) {
-      return users;
-    }
+  // Cố gắng parse JSON, nếu lỗi (ví dụ API trả về chuỗi trống) thì trả về Object rỗng
+  const data = await response.json().catch(() => ({}));
 
-    // Nếu chưa có, nạp admin vào đầu danh sách và lưu lại
-    const seededUsers = [DEFAULT_ADMIN, ...users];
-    localStorage.setItem(USERS_KEY, JSON.stringify(seededUsers));
-    return seededUsers;
-  } catch (error) {
-    // Nếu có lỗi dữ liệu, reset về danh sách chỉ có Admin
-    localStorage.setItem(USERS_KEY, JSON.stringify([DEFAULT_ADMIN]));
-    return [DEFAULT_ADMIN];
+  // Nếu mã trạng thái không nằm trong khoảng 200-299, ném ra lỗi
+  if (!response.ok) {
+    throw new Error(data.message || "Có lỗi xảy ra khi gọi API.");
   }
-};
+
+  return data;
+}
 
 /**
- * Lưu toàn bộ danh sách người dùng vào LocalStorage.
+ * Lấy danh sách người dùng từ MongoDB (Dùng cho kiểm tra admin).
  */
-const saveUsers = (users) => {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+export const getUsers = async () => {
+  try {
+    const result = await apiRequest("/api/auth/check-contact", {
+      method: "POST",
+      body: JSON.stringify({ contact: DEFAULT_ADMIN.contact }),
+    });
+
+    // Nếu admin tồn tại trong DB thì trả về mảng chứa admin, ngược lại trả về mảng rỗng
+    return result.exists ? [DEFAULT_ADMIN] : [];
+  } catch {
+    return [];
+  }
 };
 
 /**
  * Xử lý đăng ký tài khoản mới.
- * Kiểm tra trùng lặp thông tin trước khi lưu.
+ * Gửi yêu cầu lưu thông tin người dùng vào cơ sở dữ liệu MongoDB qua Backend.
  */
-export const registerUser = ({ contact, password, name, gender, dob }) => {
-  const users = getUsers();
-  const normalizedContact = String(contact).trim().toLowerCase();
+export const registerUser = async ({ contact, password, name, gender, dob }) => {
+  try {
+    const result = await apiRequest("/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify({
+        contact,
+        password,
+        name,
+        gender,
+        dob,
+      }),
+    });
 
-  // Kiểm tra xem Email/SĐT đã được sử dụng chưa
-  const exists = users.find(
-    (user) => user.contact.toLowerCase() === normalizedContact
-  );
-
-  if (exists) {
-    return { success: false, error: "Email hoặc số điện thoại này đã được đăng ký." };
+    return { success: true, user: result.user };
+  } catch (error) {
+    return { success: false, error: error.message };
   }
-
-  // Khởi tạo đối tượng người dùng mới
-  const newUser = {
-    id: Date.now().toString(), // Tạo ID duy nhất bằng thời gian hiện tại
-    contact: normalizedContact,
-    email: normalizedContact.includes("@") ? normalizedContact : "",
-    phone: !normalizedContact.includes("@") ? normalizedContact : "",
-    password, // Lưu mật khẩu (Lưu ý: Thực tế nên mã hóa mật khẩu)
-    name: String(name).trim(),
-    gender,
-    dob,
-    role: "user", // Tài khoản mới mặc định là người dùng thường
-    createdAt: new Date().toISOString(),
-  };
-
-  // Cập nhật danh sách và lưu trữ
-  saveUsers([...users, newUser]);
-  return { success: true, user: newUser };
 };
 
 /**
  * Xử lý kiểm tra thông tin đăng nhập.
+ * Gửi thông tin tài khoản và mật khẩu tới Backend để xác thực.
  */
-export const loginUser = (contact, password) => {
-  const normalizedContact = String(contact).trim().toLowerCase();
-  const users = getUsers();
+export const loginUser = async (contact, password) => {
+  try {
+    const result = await apiRequest("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ contact, password }),
+    });
 
-  // Tìm tài khoản khớp cả tên đăng nhập và mật khẩu
-  const found = users.find(
-    (user) =>
-      user.contact.toLowerCase() === normalizedContact &&
-      user.password === password
-  );
-
-  if (!found) {
-    return { success: false, error: "Email/SĐT hoặc mật khẩu không đúng." };
+    return { success: true, user: result.user };
+  } catch (error) {
+    return { success: false, error: error.message };
   }
-
-  return { success: true, user: found };
 };
 
 /**
  * Kiểm tra nhanh sự tồn tại của Email/SĐT (Dùng cho validation phía giao diện).
  */
-export const isContactTaken = (contact) => {
-  const normalizedContact = String(contact).trim().toLowerCase();
-  return getUsers().some(
-    (user) => user.contact.toLowerCase() === normalizedContact
-  );
+export const isContactTaken = async (contact) => {
+  try {
+    const result = await apiRequest("/api/auth/check-contact", {
+      method: "POST",
+      body: JSON.stringify({ contact }),
+    });
+
+    return Boolean(result.exists);
+  } catch {
+    return false;
+  }
 };
