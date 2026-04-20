@@ -2,11 +2,15 @@
 import { Link, NavLink } from "react-router-dom";
 import "../css/Header.css";
 import { useCart } from "./CartContext";
-import megaMenuData from "../data/megaMenu.json";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
+import useFetch from "../hooks/useFetch";
 
-export default function Header({ searchValue = "", onSearchChange = () => { } }) {
+export default function Header({
+  searchValue = "",
+  onSearchChange = () => { },
+  onSearchSubmit = () => { },
+}) {
   // --- 1. LẤY DỮ LIỆU TỪ GIỎ HÀNG VÀ AUTHENTICATION ---
   const cartData = useCart();
   const cartList = cartData.cart || cartData.cartItems || [];
@@ -21,6 +25,8 @@ export default function Header({ searchValue = "", onSearchChange = () => { } })
   const [navExpanded, setNavExpanded] = useState(false);   // Bật/tắt menu trên mobile
   const [showLoginModal, setShowLoginModal] = useState(false);       // Hiện/ẩn bảng Đăng nhập
   const [showRegisterModal, setShowRegisterModal] = useState(false); // Hiện/ẩn bảng Đăng ký
+  const { data: megaMenuDataSource } = useFetch("/api/mega-menu");
+  const megaMenuData = Array.isArray(megaMenuDataSource) ? megaMenuDataSource : [];
 
   // Hàm mở bảng Đăng nhập và đóng bảng Đăng ký
   const openLogin = () => {
@@ -212,8 +218,15 @@ export default function Header({ searchValue = "", onSearchChange = () => { } })
                   placeholder="Nhập từ khóa bạn cần tìm kiếm..."
                   value={searchValue}
                   onChange={(e) => onSearchChange(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") onSearchSubmit(searchValue);
+                  }}
                 />
-                <button type="button" className="search-icon-btn">
+                <button
+                  type="button"
+                  className="search-icon-btn"
+                  onClick={() => onSearchSubmit(searchValue)}
+                >
                   <img src="/IMG/search.png" alt="Search" className="header-action-image" />
                 </button>
               </div>

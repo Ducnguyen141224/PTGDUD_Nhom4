@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { CartProvider } from "./components/CartContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -15,18 +15,66 @@ import PolicyPage from "./pages/PolicyPage";
 import ContactPage from "./pages/ContactPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
+import useFetch from "./hooks/useFetch";
 
 export default function App() {
   const [query, setQuery] = useState("");
+  const [searchNotice, setSearchNotice] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { data: newsItemsData } = useFetch("/api/news-items");
+  const newsItems = Array.isArray(newsItemsData) ? newsItemsData : [];
+
+  const handleSearchSubmit = (rawKeyword = "") => {
+    const keyword = rawKeyword.trim().toLowerCase();
+    if (!keyword) return;
+    setSearchNotice("");
+
+    const isInNewsContext = location.pathname.startsWith("/tin-tuc");
+    const isInHomeContext = location.pathname === "/";
+    const isInProductsContext = location.pathname.startsWith("/san-pham");
+
+    if (isInNewsContext) {
+      const matchedNews = newsItems.find((item) => {
+        const joinedContent = [
+          item.title,
+          item.excerpt,
+          item.content,
+          item.category,
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        return joinedContent.includes(keyword);
+      });
+
+      if (matchedNews?.slug) {
+        navigate(`/tin-tuc/${matchedNews.slug}`);
+        return;
+      }
+
+      setSearchNotice(`Không tìm thấy bài viết phù hợp với từ khóa "${rawKeyword.trim()}".`);
+      return;
+    }
+
+    // Tim kiem tai cho: Trang chu va Trang san pham se tu xu ly theo prop query.
+    if (isInHomeContext || isInProductsContext) {
+      return;
+    }
+  };
 
   return (
     <CartProvider>
       <div className="d-flex flex-column" style={{ minHeight: "100vh" }}>
-        <Header searchValue={query} onSearchChange={setQuery} />
+        <Header
+          searchValue={query}
+          onSearchChange={setQuery}
+          onSearchSubmit={handleSearchSubmit}
+        />
 
         <main style={{ flex: 1 }}>
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage query={query} />} />
             <Route path="/san-pham" element={<ProductListPage query={query} />} />
             <Route path="/san-pham/:id" element={<ProductDetailPage />} />
             <Route path="/gio-hang" element={<CartPage />} />
@@ -39,7 +87,10 @@ export default function App() {
             <Route path="/chinh-sach/:slug" element={<PolicyPage />} />
             <Route path="/lien-he" element={<ContactPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/tin-tuc/:slug" element={<NewsDetailPage />} />
+            <Route
+              path="/tin-tuc/:slug"
+              element={<NewsDetailPage searchNotice={searchNotice} />}
+            />
             <Route path="/admin/san-pham" element={<AdminProductsPage />} />
             <Route path="*" element={<HomePage />} />
           </Routes>

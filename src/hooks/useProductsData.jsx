@@ -50,7 +50,6 @@ export default function useProductsData() {
   }, [data, needsSeed]);
 
   /**
-   * Hàm cập nhật sản phẩm nâng cao:
    * Vừa cập nhật State của React để thay đổi giao diện,
    * Vừa lưu ngay vào LocalStorage để tránh mất dữ liệu khi F5.
    */
@@ -66,9 +65,9 @@ export default function useProductsData() {
   };
   // Trả về các giá trị cần thiết cho Component sử dụng
   return {
-    products,              // Danh sách sản phẩm
+    products,
     setProducts: updateProducts, // Hàm để thêm/sửa/xóa sản phẩm
-    loading: needsSeed ? loading : false, // Trạng thái đang tải (chỉ đúng khi máy chưa có dữ liệu)
-    error: needsSeed ? error : null,      // Lỗi phát sinh từ API (nếu có)
+    loading: needsSeed ? loading : false,
+    error: needsSeed ? error : null,
   };
 }
