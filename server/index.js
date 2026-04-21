@@ -4,7 +4,8 @@ import cors from "cors";
 import mongoose from "mongoose"; // Thư viện kết nối và thao tác với MongoDB
 
 const app = express();
-const PORT = process.env.PORT || 4000; // Cổng chạy server, mặc định là 4000
+const PORT = Number.parseInt(process.env.PORT, 10) || 4000; // Cổng chạy server, mặc định là 4000
+const PORT_RETRY_COUNT = Number.parseInt(process.env.PORT_RETRY_COUNT, 10) || 10;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/pinkycloud";
 
 // --- MIDDLEWARE ---
@@ -177,7 +178,7 @@ app.get("/api/office-locations", async (_req, res) => {
 // 8. Lấy URL thương hiệu
 app.get("/api/brand-urls", async (_req, res) => {
   const brandUrlItems = await getCollectionItems("brand_urls");
-  const brandUrls = brandUrlItems.reduce((result, item) => {
+  const brandUrls = brandUrlItems.reduce((result, item) => {//Chuyển mảng thành object để đọc nhanh
     result[item.brand] = item.url;
     return result;
   }, {});
@@ -195,19 +196,125 @@ app.get("/api/vietnam-addresses", async (_req, res) => {
 
   res.json(addressMap);
 });
+// 10. Validate mã voucher
+app.post("/api/vouchers/validate", async (req, res) => {
+  const { code = "", totalAmount = 0 } = req.body || {};
+  const normalizedCode = String(code).trim().toUpperCase();
 
+  if (!normalizedCode) {
+    return res.status(400).json({ message: "Vui lòng nhập mã voucher." });
+  }
+
+  const voucher = await mongoose.connection.db
+    .collection("hot_vouchers")
+    .findOne({ code: normalizedCode });
+
+  if (!voucher) {
+    return res.status(404).json({ message: "Mã voucher không hợp lệ." });
+  }
+
+  // Kiểm tra đơn tối thiểu
+  if (voucher.minOrder && totalAmount < voucher.minOrder) {
+    return res.status(400).json({
+      message: `Đơn hàng tối thiểu ${voucher.minOrder.toLocaleString("vi-VN")}đ để dùng mã này.`,
+    });
+  }
+
+  // Tính tiền giảm
+  let discountAmount = 0;
+  if (voucher.discountType === "percent") {
+    discountAmount = Math.round((totalAmount * voucher.discountValue) / 100);
+    if (voucher.maxDiscount && discountAmount > voucher.maxDiscount) {
+      discountAmount = voucher.maxDiscount;
+    }
+  } else {
+    discountAmount = voucher.discountValue || 0;
+  }
+
+  return res.json({
+    success: true,
+    voucher: {
+      code: voucher.code,
+      title: voucher.title,
+      discountType: voucher.discountType,
+      discountValue: voucher.discountValue,
+      discountAmount,
+    },
+  });
+});
+// 10. Tạo đơn hàng mới
+app.post("/api/orders", async (req, res) => {
+  const { userId, userContact, items, address, paymentMethod, totalAmount, discountAmount, finalAmount, voucherCode, note } = req.body || {};
+
+  if (!items?.length || !address) {
+    return res.status(400).json({ message: "Thiếu thông tin đơn hàng." });
+  }
+
+  const newOrder = {
+    id: `DH${Date.now()}`,
+    userId,
+    userContact,
+    items,
+    address,
+    paymentMethod,
+    totalAmount,
+    discountAmount: discountAmount || 0,
+    finalAmount,
+    voucherCode: voucherCode || null,
+    note: note || "",
+    status: "processing",
+    createdAt: new Date().toISOString(),
+  };
+
+  await mongoose.connection.db.collection("orders").insertOne(newOrder);
+  return res.status(201).json({ order: newOrder });
+});
+
+// 11. Lấy danh sách đơn hàng theo userId
+app.get("/api/orders/:userId", async (req, res) => {
+  const orders = await mongoose.connection.db
+    .collection("orders")
+    .find({ userId: req.params.userId })
+    .sort({ createdAt: -1 })
+    .toArray();
+
+  return res.json(orders.map(removeMongoFields));
+});
 /**
  * Khởi động Server
  */
+function listenOnAvailablePort(startPort, retryCount) {
+  return new Promise((resolve, reject) => {
+    const tryListen = (port, retriesLeft) => {
+      const server = app.listen(port, () => {
+        resolve({ server, port });
+      });
+
+      server.on("error", (error) => {
+        if (error.code === "EADDRINUSE" && retriesLeft > 0) {
+          console.warn(`Cổng ${port} đang được sử dụng, thử chuyển sang cổng ${port + 1}...`);
+          tryListen(port + 1, retriesLeft - 1);
+          return;
+        }
+
+        reject(error);
+      });
+    };
+
+    tryListen(startPort, retryCount);
+  });
+}
+
 async function startServer() {
   try {
     await mongoose.connect(MONGODB_URI);
     console.log("Đã kết nối cơ sở dữ liệu:", MONGODB_URI);
-    app.listen(PORT, () => {
-      console.log(`Server API đang chạy tại: http://localhost:${PORT}`);
-    });
+
+    const { port } = await listenOnAvailablePort(PORT, PORT_RETRY_COUNT);
+    console.log(`Server API đang chạy tại: http://localhost:${port}`);
   } catch (err) {
-    console.error("Lỗi kết nối MongoDB:", err);
+    console.error("Không thể khởi động server:", err);
+    process.exit(1);
   }
 }
 
