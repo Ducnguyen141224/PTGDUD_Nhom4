@@ -99,7 +99,7 @@ export default function RegisterModal({ show, onClose, onSwitchToLogin }) {
     }
 
     // Kiểm tra xem Email/SĐT này đã có người dùng chưa
-    if (isContactTaken(contact.trim())) {
+    if (await isContactTaken(contact.trim())) {
       setErrors((prev) => ({ ...prev, contact: "Email hoặc SĐT này đã được đăng ký. Vui lòng đăng nhập." }));
       return;
     }
@@ -132,8 +132,8 @@ export default function RegisterModal({ show, onClose, onSwitchToLogin }) {
     setSubmitting(true);
 
     try {
-      // Gọi hàm lưu người dùng vào LocalStorage
-      const result = registerUser({
+      // Gọi hàm lưu người dùng vào MongoDB
+      const result = await registerUser({
         contact,
         password,
         name,
@@ -182,7 +182,7 @@ export default function RegisterModal({ show, onClose, onSwitchToLogin }) {
             <div style={{ width: 72, height: 72, borderRadius: "50%", background: "#fff0f3", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px", fontSize: 36 }}>✔</div>
             <h5 style={{ fontWeight: 800, color: "#ff6b81", marginBottom: 8 }}>Đăng ký thành công!</h5>
             <p style={{ fontSize: 14, color: "#555", lineHeight: 1.7, marginBottom: 8 }}>
-              Xin chào <b>{name}</b>! Tài khoản của bạn đã được tạo trên trình duyệt này.
+              Xin chào <b>{name}</b>! Tài khoản của bạn đã được tạo thành công.
             </p>
             <div style={{ background: "#fff8e1", border: "1px dashed #ffc107", borderRadius: 8, padding: "10px 14px", fontSize: 13, color: "#795548", marginBottom: 20, textAlign: "left" }}>
               Tài khoản: <b>{contact}</b>

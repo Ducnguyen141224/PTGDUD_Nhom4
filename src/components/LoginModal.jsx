@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { loginUser } from "../hooks/userStorage";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 
-// Thông tin giả lập OAuth
+// Thông tin giả lập khi đăng nhập bằng bên thứ ba (OAuth)
 const FAKE_GOOGLE_USER = { name: "Nguyễn Google", email: "user@gmail.com" };
 const FAKE_FACEBOOK_USER = { name: "Nguyễn Facebook", email: "user@facebook.com" };
 
@@ -10,44 +10,56 @@ export default function LoginModal({ show, onClose, onLoginSuccess, onSwitchToRe
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(null); // Trạng thái chờ: "google", "facebook", "normal" hoặc null
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [showForgot, setShowForgot] = useState(false);
 
+  // Nếu props 'show' là false thì không hiển thị Modal
   if (!show) return null;
 
-  // ── OAuth giả lập ──
+  // --- GIẢ LẬP ĐĂNG NHẬP MẠNG XÃ HỘI (OAuth) ---
   const simulateOAuth = (provider) => {
-    setError(""); setLoading(provider); setSuccessMsg("");
+    setError("");
+    setLoading(provider);
+    setSuccessMsg("");
+
+    // Giả lập thời gian chờ kết nối server (1.5 giây)
     setTimeout(() => {
       const fakeUser = provider === "google" ? FAKE_GOOGLE_USER : FAKE_FACEBOOK_USER;
       setLoading(null);
       setSuccessMsg(`✅ Đăng nhập bằng ${provider === "google" ? "Google" : "Facebook"} thành công!`);
+
+      // Chờ một chút để người dùng thấy thông báo thành công trước khi đóng modal
       setTimeout(() => onLoginSuccess(fakeUser), 900);
     }, 1500);
   };
 
-  // ── Đăng nhập thường — kiểm tra localStorage ──
-  const handleNormalLogin = () => {
+  // --- ĐĂNG NHẬP THÔNG THƯỜNG (Kiểm tra dữ liệu từ MongoDB/Storage) ---
+  const handleNormalLogin = async () => {
     setError("");
+
+    // Kiểm tra dữ liệu đầu vào cơ bản
     if (!emailInput.trim() || !passwordInput) {
       setError("Vui lòng nhập email/SĐT và mật khẩu.");
       return;
     }
+
     setLoading("normal");
-    setTimeout(() => {
-      const result = loginUser(emailInput.trim(), passwordInput);
-      setLoading(null);
-      if (result.success) {
-        setSuccessMsg(`✅ Đăng nhập thành công! Xin chào ${result.user.name}`);
-        setTimeout(() => onLoginSuccess(result.user), 900);
-      } else {
-        setError(`❌ ${result.error}`);
-      }
-    }, 800);
+
+    // Gọi hàm kiểm tra tài khoản từ hooks đã viết
+    const result = await loginUser(emailInput.trim(), passwordInput);
+    setLoading(null);
+
+    if (result.success) {
+      setSuccessMsg(`✅ Đăng nhập thành công! Xin chào ${result.user.name}`);
+      setTimeout(() => onLoginSuccess(result.user), 900);
+    } else {
+      setError(`❌ ${result.error}`);
+    }
   };
 
+  // Định nghĩa CSS chung cho các ô Input
   const inputStyle = {
     width: "100%", padding: "12px 14px",
     border: "1px solid #e0e0e0", borderRadius: "8px",
@@ -60,37 +72,38 @@ export default function LoginModal({ show, onClose, onLoginSuccess, onSwitchToRe
     <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.55)", zIndex: 1050, display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div style={{ background: "#fff", borderRadius: "12px", width: "100%", maxWidth: "420px", padding: "28px 32px 24px", position: "relative", boxShadow: "0 8px 32px rgba(0,0,0,0.18)" }}>
 
+        {/* Nút đóng Modal (X) */}
         <button onClick={onClose} style={{ position: "absolute", top: "14px", right: "16px", background: "none", border: "none", fontSize: "22px", cursor: "pointer", color: "#888" }}>×</button>
 
         <h5 style={{ textAlign: "center", fontWeight: 700, fontSize: "18px", marginBottom: "20px", color: "#222" }}>Đăng nhập</h5>
 
-        {/* Thông báo thành công */}
+        {/* Hiển thị thông báo thành công */}
         {successMsg && (
           <div style={{ background: "#fff0f3", color: "#c2185b", borderRadius: "8px", padding: "10px 14px", marginBottom: "14px", fontSize: "14px", textAlign: "center", fontWeight: 600 }}>
             {successMsg}
           </div>
         )}
 
-        {/* Thông báo lỗi */}
+        {/* Hiển thị thông báo lỗi */}
         {error && (
           <div style={{ background: "#fdecea", color: "#c62828", borderRadius: "8px", padding: "10px 14px", marginBottom: "14px", fontSize: "14px" }}>
             {error}
           </div>
         )}
 
-        {/* Nút Facebook */}
+        {/* Nút Đăng nhập bằng Facebook */}
         <button onClick={() => simulateOAuth("facebook")} disabled={!!loading}
           style={{ width: "100%", padding: "11px", background: loading === "facebook" ? "#aac4f0" : "#1877f2", color: "#fff", border: "none", borderRadius: "8px", fontSize: "14px", fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", marginBottom: "10px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
           {loading === "facebook" ? <><Spinner /> Đang kết nối...</> : <><FbIcon /> Facebook</>}
         </button>
 
-        {/* Nút Google */}
+        {/* Nút Đăng nhập bằng Google */}
         <button onClick={() => simulateOAuth("google")} disabled={!!loading}
           style={{ width: "100%", padding: "11px", background: "#fff", color: "#333", border: "1px solid #ddd", borderRadius: "8px", fontSize: "14px", fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", marginBottom: "20px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
           {loading === "google" ? <><Spinner color="#4285F4" /> Đang kết nối...</> : <><GoogleIcon /> Đăng nhập bằng Google</>}
         </button>
 
-        {/* Divider */}
+        {/* Đường phân cách */}
         <div style={{ position: "relative", textAlign: "center", marginBottom: "16px" }}>
           <hr style={{ borderColor: "#eee" }} />
           <span style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", background: "#fff", padding: "0 12px", fontSize: "13px", color: "#999" }}>
@@ -98,14 +111,14 @@ export default function LoginModal({ show, onClose, onLoginSuccess, onSwitchToRe
           </span>
         </div>
 
-        {/* Input email/SĐT */}
+        {/* Ô nhập Email hoặc Số điện thoại */}
         <div style={{ marginBottom: "10px" }}>
           <input type="text" placeholder="Email hoặc số điện thoại" value={emailInput}
             onChange={e => { setEmailInput(e.target.value); setError(""); }}
             style={inputStyle} />
         </div>
 
-        {/* Input mật khẩu */}
+        {/* Ô nhập Mật khẩu (có nút hiện/ẩn mật khẩu) */}
         <div style={{ marginBottom: "10px", position: "relative" }}>
           <input type={showPassword ? "text" : "password"} placeholder="Mật khẩu"
             value={passwordInput}
@@ -114,40 +127,44 @@ export default function LoginModal({ show, onClose, onLoginSuccess, onSwitchToRe
             style={{ ...inputStyle, paddingRight: "40px" }} />
           <button onClick={() => setShowPassword(s => !s)}
             style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "16px" }}>
-            {showPassword ? "🙈" : "👁"}
+            {showPassword ? "🙈" : "👁️"}
           </button>
         </div>
 
-        {/* Nhớ mật khẩu / Quên mật khẩu */}
+        {/* Lựa chọn Nhớ mật khẩu và Quên mật khẩu */}
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px", fontSize: "13px" }}>
           <label style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}>
             <input type="checkbox" style={{ accentColor: "#ff6b81" }} /> Nhớ mật khẩu
           </label>
-          <p style={{ cursor: "pointer", color: "#ff6b81"}} onClick={() => {setShowForgot(true);}}>
-              Quên mật khẩu?
+          <p style={{ cursor: "pointer", color: "#ff6b81" }} onClick={() => { setShowForgot(true); }}>
+            Quên mật khẩu?
           </p>
-          
         </div>
 
-        {/* Nút đăng nhập */}
+        {/* Nút Đăng nhập chính */}
         <button onClick={handleNormalLogin} disabled={!!loading}
           style={{ width: "100%", padding: "13px", background: loading === "normal" ? "#ccc" : "#ff6b81", color: "#fff", border: "none", borderRadius: "25px", fontSize: "15px", fontWeight: 700, cursor: loading ? "not-allowed" : "pointer", marginBottom: "14px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
           {loading === "normal" ? <><Spinner /> Đang đăng nhập...</> : "Đăng nhập"}
         </button>
 
+        {/* Chuyển sang đăng ký */}
         <p style={{ textAlign: "center", fontSize: "14px", margin: 0, color: "#333" }}>
           Chưa có tài khoản?{" "}
           <span onClick={onSwitchToRegister} style={{ color: "#ff6b81", fontWeight: 700, cursor: "pointer" }}>
             ĐĂNG KÝ NGAY
           </span>
         </p>
+
+        {/* Hiển thị Modal Quên mật khẩu nếu được chọn */}
         {showForgot && (
-  <ForgotPasswordModal onClose={() => setShowForgot(false)} />
-)}
+          <ForgotPasswordModal onClose={() => setShowForgot(false)} />
+        )}
       </div>
     </div>
   );
 }
+
+// --- CÁC COMPONENT PHỤ (SPINNER & ICONS) ---
 
 function Spinner({ color = "#fff" }) {
   return <span style={{ width: 16, height: 16, border: `2px solid ${color}`, borderTopColor: "transparent", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />;
@@ -168,6 +185,10 @@ function GoogleIcon() {
   );
 }
 
+// Tiêm hiệu ứng xoay (animation) cho Spinner vào đầu trang
 const s = document.createElement("style");
 s.innerHTML = `@keyframes spin { to { transform: rotate(360deg); } }`;
-if (!document.head.querySelector("[data-login-spin]")) { s.setAttribute("data-login-spin", "1"); document.head.appendChild(s); }
+if (!document.head.querySelector("[data-login-spin]")) {
+  s.setAttribute("data-login-spin", "1");
+  document.head.appendChild(s);
+}
