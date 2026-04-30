@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { getUsers } from "../hooks/userStorage";
 
 export default function ForgotPasswordModal({ onClose }) {
   const [email, setEmail] = useState("");
@@ -26,17 +25,19 @@ export default function ForgotPasswordModal({ onClose }) {
     boxSizing: "border-box",
   };
 
+  // countdown OTP
   useEffect(() => {
-  if (countdown <= 0) return;
+    if (countdown <= 0) return;
 
-  const timer = setTimeout(() => {
-    setCountdown(countdown - 1);
-  }, 1000);
+    const timer = setTimeout(() => {
+      setCountdown(countdown - 1);
+    }, 1000);
 
-  return () => clearTimeout(timer);
-}, [countdown]);
+    return () => clearTimeout(timer);
+  }, [countdown]);
 
-  const handleReset = () => {
+  // ✅ RESET PASSWORD (CALL API)
+  const handleReset = async () => {
     setError("");
     setSuccess("");
 
@@ -44,6 +45,7 @@ export default function ForgotPasswordModal({ onClose }) {
       setError("Vui lòng nhập đầy đủ thông tin.");
       return;
     }
+
     if (otp !== generatedOtp) {
       setError("Mã OTP không đúng.");
       return;
@@ -59,45 +61,52 @@ export default function ForgotPasswordModal({ onClose }) {
       return;
     }
 
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    setTimeout(() => {
-      const USERS_KEY = "pinkycloud_users";
-      const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-      const userIndex = users.findIndex(
-  (u) => u.contact.toLowerCase() === email.trim().toLowerCase()
-);
+      const res = await fetch("http://localhost:4000/api/auth/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contact: email,
+          newPassword,
+        }),
+      });
 
-      if (userIndex === -1) {
-        setError("Email không tồn tại.");
-        setLoading(false);
-        return;
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Lỗi server");
       }
 
-      users[userIndex].password = newPassword;
-      localStorage.setItem(USERS_KEY, JSON.stringify(users));
-
       setSuccess("✅ Đổi mật khẩu thành công!");
-      setLoading(false);
 
       setTimeout(() => {
         onClose();
       }, 1200);
-    }, 800);
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
+  // ✅ GENERATE OTP (FRONTEND DEMO)
   const handleGetOtp = () => {
-  if (!email.trim()) {
-    setError("Vui lòng nhập email trước khi lấy mã OTP.");
-    return;
-  }
+    if (!email.trim()) {
+      setError("Vui lòng nhập email trước khi lấy mã OTP.");
+      return;
+    }
 
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
-  setGeneratedOtp(code);
-  setShowOtp(true);
-  setSuccess("📩 Mã OTP đã được tạo");
-  setCountdown(60);    
-};
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedOtp(code);
+    setShowOtp(true);
+    setSuccess("📩 Mã OTP đã được tạo");
+    setCountdown(60);
+  };
 
   return (
     <div
@@ -152,32 +161,28 @@ export default function ForgotPasswordModal({ onClose }) {
 
         {/* SUCCESS */}
         {success && (
-          <div
-            style={{
-              background: "#fff0f3",
-              color: "#c2185b",
-              borderRadius: "8px",
-              padding: "10px",
-              marginBottom: "12px",
-              textAlign: "center",
-              fontWeight: 600,
-            }}
-          >
+          <div style={{
+            background: "#fff0f3",
+            color: "#c2185b",
+            borderRadius: "8px",
+            padding: "10px",
+            marginBottom: "12px",
+            textAlign: "center",
+            fontWeight: 600,
+          }}>
             {success}
           </div>
         )}
 
         {/* ERROR */}
         {error && (
-          <div
-            style={{
-              background: "#fdecea",
-              color: "#c62828",
-              borderRadius: "8px",
-              padding: "10px",
-              marginBottom: "12px",
-            }}
-          >
+          <div style={{
+            background: "#fdecea",
+            color: "#c62828",
+            borderRadius: "8px",
+            padding: "10px",
+            marginBottom: "12px",
+          }}>
             {error}
           </div>
         )}
@@ -197,56 +202,51 @@ export default function ForgotPasswordModal({ onClose }) {
         </div>
 
         {/* OTP */}
-<div style={{ marginBottom: "10px", display: "flex", gap: "8px" }}>
-  <input
-    type="text"
-    placeholder="Nhập mã OTP"
-    value={otp}
-    onChange={(e) => {
-      setOtp(e.target.value);
-      setError("");
-    }}
-    style={{ ...inputStyle, flex: 1 }}
-  />
+        <div style={{ marginBottom: "10px", display: "flex", gap: "8px" }}>
+          <input
+            type="text"
+            placeholder="Nhập mã OTP"
+            value={otp}
+            onChange={(e) => {
+              setOtp(e.target.value);
+              setError("");
+            }}
+            style={{ ...inputStyle, flex: 1 }}
+          />
 
-  <button
-  onClick={handleGetOtp}
-  disabled={countdown > 0}
-  style={{
-    padding: "0 12px",
-    border: "none",
-    borderRadius: "8px",
-    background: countdown > 0 ? "#ccc" : "#ff6b81",
-    color: "#fff",
-    fontSize: "13px",
-    cursor: countdown > 0 ? "not-allowed" : "pointer",
-    whiteSpace: "nowrap",
-  }}
->
-  {countdown > 0 ? `Gửi lại (${countdown}s)` : "Lấy mã"}
-</button>
-   <div>
-  </div>
-</div>
+          <button
+            onClick={handleGetOtp}
+            disabled={countdown > 0}
+            style={{
+              padding: "0 12px",
+              border: "none",
+              borderRadius: "8px",
+              background: countdown > 0 ? "#ccc" : "#ff6b81",
+              color: "#fff",
+              fontSize: "13px",
+              cursor: countdown > 0 ? "not-allowed" : "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {countdown > 0 ? `Gửi lại (${countdown}s)` : "Lấy mã"}
+          </button>
+        </div>
 
-    <div>
+        {/* SHOW OTP */}
         {showOtp && (
-  <div
-    style={{
-      background: "#fff0f3",
-      color: "#c2185b",
-      borderRadius: "8px",
-      padding: "10px",
-      marginBottom: "12px",
-      textAlign: "center",
-      fontWeight: 700,
-      letterSpacing: "2px",
-    }}
-  >
-    🔑 OTP: {generatedOtp}
-  </div>
-)}
-    </div>
+          <div style={{
+            background: "#fff0f3",
+            color: "#c2185b",
+            borderRadius: "8px",
+            padding: "10px",
+            marginBottom: "12px",
+            textAlign: "center",
+            fontWeight: 700,
+            letterSpacing: "2px",
+          }}>
+            🔑 OTP: {generatedOtp}
+          </div>
+        )}
 
         {/* PASSWORD */}
         <div style={{ marginBottom: "10px", position: "relative" }}>

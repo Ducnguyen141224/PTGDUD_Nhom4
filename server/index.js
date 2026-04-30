@@ -132,6 +132,32 @@ app.post("/api/auth/login", async (req, res) => {
   return res.json({ user: sanitizeUser(user) });
 });
 
+// 1.4 Reset password
+app.post("/api/auth/reset-password", async (req, res) => {
+  const { contact = "", newPassword = "" } = req.body || {};
+
+  const normalizedContact = String(contact).trim().toLowerCase();
+
+  if (!normalizedContact || !newPassword) {
+    return res.status(400).json({ message: "Thiếu thông tin." });
+  }
+
+  const usersCollection = mongoose.connection.db.collection("users");
+
+  const user = await usersCollection.findOne({ contact: normalizedContact });
+
+  if (!user) {
+    return res.status(404).json({ message: "Email không tồn tại." });
+  }
+
+  await usersCollection.updateOne(
+    { contact: normalizedContact },
+    { $set: { password: newPassword } }
+  );
+
+  return res.json({ message: "Đổi mật khẩu thành công." });
+});
+
 // 2. Lấy danh sách tất cả sản phẩm
 app.get("/api/products", async (_req, res) => {
   const products = await getCollectionItems("products");
@@ -178,7 +204,7 @@ app.get("/api/office-locations", async (_req, res) => {
 // 8. Lấy URL thương hiệu
 app.get("/api/brand-urls", async (_req, res) => {
   const brandUrlItems = await getCollectionItems("brand_urls");
-  const brandUrls = brandUrlItems.reduce((result, item) => {//Chuyển mảng thành object để đọc nhanh
+  const brandUrls = brandUrlItems.reduce((result, item) => {
     result[item.brand] = item.url;
     return result;
   }, {});
