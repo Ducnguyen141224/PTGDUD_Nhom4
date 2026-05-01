@@ -760,3 +760,126 @@ a.btn.btn-pink:active,
   font-size: 11px;
   line-height: 1;
 }
+
+/* Extracted inline home dynamic styles */
+.hero-slider-track {
+  width: 700%;
+}
+
+.hero-slider-track--no-transition { transition: none; }
+.hero-slider-track--transition { transition: transform 1400ms cubic-bezier(0.4, 0, 0.2, 1); }
+.hero-slider-track-0 { transform: translateX(0); }
+.hero-slider-track-1 { transform: translateX(-14.285714%); }
+.hero-slider-track-2 { transform: translateX(-28.571429%); }
+.hero-slider-track-3 { transform: translateX(-42.857143%); }
+.hero-slider-track-4 { transform: translateX(-57.142857%); }
+.hero-slider-track-5 { transform: translateX(-71.428571%); }
+.hero-slider-track-6 { transform: translateX(-85.714286%); }
+
+.hero-slide { width: 14.285714%; }
+.hero-voucher-card { background: linear-gradient(135deg, #fff0f3, #ffd6e3); }
+.hero-voucher-accent-1 { background: linear-gradient(135deg, #fff1f5 0%, #ffd6e3 100%); }
+.hero-voucher-accent-2 { background: linear-gradient(135deg, #fff8df 0%, #ffe38a 100%); }
+.hero-voucher-accent-3 { background: linear-gradient(135deg, #eef7ff 0%, #cde8ff 100%); }
+.hero-voucher-accent-4 { background: linear-gradient(135deg, #eef7ff 0%, #e878ea 100%); }
+.flash-deal-progress-fill-0 { width: 0%; }
+.flash-deal-progress-fill-1 { width: 1%; }
+.flash-deal-progress-fill-2 { width: 2%; }
+.flash-deal-progress-fill-3 { width: 3%; }
+.flash-deal-progress-fill-4 { width: 4%; }
+.flash-deal-progress-fill-5 { width: 5%; }
+.flash-deal-progress-fill-6 { width: 6%; }
+.flash-deal-progress-fill-7 { width: 7%; }
+.flash-deal-progress-fill-8 { width: 8%; }
+.flash-deal-progress-fill-9 { width: 9%; }
+.flash-deal-progress-fill-10 { width: 10%; }
+.flash-deal-progress-fill-11 { width: 11%; }
+.flash-deal-progress-fill-12 { width: 12%; }
+.flash-deal-progress-fill-13 { width: 13%; }
+.flash-deal-progress-fill-14 { width: 14%; }
+.flash-deal-progress-fill-15 { width: 15%; }
+.flash-deal-progress-fill-16 { width: 16%; }
+.flash-deal-progress-fill-17 { width: 17%; }
+.flash-deal-progress-fill-18 { width: 18%; }
+.flash-deal-progress-fill-19 { width: 19%; }
+.flash-deal-progress-fill-20 { width: 20%; }
+.flash-deal-progress-fill-21 { width: 21%; }
+.flash-deal-progress-fill-22 { width: 22%; }
+.flash-deal-progress-fill-23 { width: 23%; }
+.flash-deal-progress-fill-24 { width: 24%; }
+.flash-deal-progress-fill-25 { width: 25%; }
+.flash-deal-progress-fill-26 { width: 26%; }
+.flash-deal-progress-fill-27 { width: 27%; }
+.flash-deal-progress-fill-28 { width: 28%; }
+.flash-deal-progress-fill-29 { width: 29%; }
+.flash-deal-progress-fill-30 { width: 30%; }
+.flash-deal-progress-fill-31 { width: 31%; }
+.flash-deal-progress-fill-32 { width: 32%; }
+.flash-deal-progress-fill-33 { width: 33%; }
+.flash-deal-progress-fill-34 { width: 34%; }
+.flash-deal-progress-fill-35 { width: 35%; }
+.flash-deal-progress-fill-36 { width: 36%; }
+.flash-deal-progress-fill-37 { width: 37%; }
+.flash-deal-progress-fill-38 { width: 38%; }
+.flash-deal-progress-fill-39 { width: 39%; }
+.flash-deal-progress-fill-40 { width: 40%; }
+.flash-deal-progress-fill-41 { width: 41%; }
+.flash-deal-progress-fill-42 { width: 42%; }
+.flash-deal-progress-fill-43 { width: 43%; }
+.flash-deal-progress-fill-44 { width: 44%; }
+.flash-deal-progress-fill-45 { width: 45%; }
+.flash-deal-progress-fill-46 { width: 46%; }
+.flash-deal-progress-fill-47 { width: 47%; }
+.flash-deal-progress-fill-48 { width: 48%; }
+.flash-deal-progress-fill-49 { width: 49%; }
+.flash-deal-progress-fill-50 { width: 50%; }
+.flash-deal-progress-fill-51 { width: 51%; }
+.flash-deal-progress-fill-52 { width: 52%; }
+.flash-deal-progress-fill-53 { width: 53%; }
+.flash-deal-progress-fill-54 { width: 54%; }
+.flash-deal-progress-fill-55 { width: 55%; }
+.flash-deal-progress-fill-56 { width: 56%; }
+.flash-deal-progress-fill-57 { width: 57%; }
+.flash-deal-progress-fill-58 { width: 58%; }
+.flash-deal-progress-fill-59 { width: 59%; }
+.flash-deal-progress-fill-60 { width: 60%; }
+.flash-deal-progress-fill-61 { width: 61%; }
+.flash-deal-progress-fill-62 { width: 62%; }
+.flash-deal-progress-fill-63 { width: 63%; }
+.flash-deal-progress-fill-64 { width: 64%; }
+.flash-deal-progress-fill-65 { width: 65%; }
+.flash-deal-progress-fill-66 { width: 66%; }
+.flash-deal-progress-fill-67 { width: 67%; }
+.flash-deal-progress-fill-68 { width: 68%; }
+.flash-deal-progress-fill-69 { width: 69%; }
+.flash-deal-progress-fill-70 { width: 70%; }
+.flash-deal-progress-fill-71 { width: 71%; }
+.flash-deal-progress-fill-72 { width: 72%; }
+.flash-deal-progress-fill-73 { width: 73%; }
+.flash-deal-progress-fill-74 { width: 74%; }
+.flash-deal-progress-fill-75 { width: 75%; }
+.flash-deal-progress-fill-76 { width: 76%; }
+.flash-deal-progress-fill-77 { width: 77%; }
+.flash-deal-progress-fill-78 { width: 78%; }
+.flash-deal-progress-fill-79 { width: 79%; }
+.flash-deal-progress-fill-80 { width: 80%; }
+.flash-deal-progress-fill-81 { width: 81%; }
+.flash-deal-progress-fill-82 { width: 82%; }
+.flash-deal-progress-fill-83 { width: 83%; }
+.flash-deal-progress-fill-84 { width: 84%; }
+.flash-deal-progress-fill-85 { width: 85%; }
+.flash-deal-progress-fill-86 { width: 86%; }
+.flash-deal-progress-fill-87 { width: 87%; }
+.flash-deal-progress-fill-88 { width: 88%; }
+.flash-deal-progress-fill-89 { width: 89%; }
+.flash-deal-progress-fill-90 { width: 90%; }
+.flash-deal-progress-fill-91 { width: 91%; }
+.flash-deal-progress-fill-92 { width: 92%; }
+.flash-deal-progress-fill-93 { width: 93%; }
+.flash-deal-progress-fill-94 { width: 94%; }
+.flash-deal-progress-fill-95 { width: 95%; }
+.flash-deal-progress-fill-96 { width: 96%; }
+.flash-deal-progress-fill-97 { width: 97%; }
+.flash-deal-progress-fill-98 { width: 98%; }
+.flash-deal-progress-fill-99 { width: 99%; }
+.flash-deal-progress-fill-100 { width: 100%; }

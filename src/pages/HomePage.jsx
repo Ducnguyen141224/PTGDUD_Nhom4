@@ -102,8 +102,7 @@ function HeroBanner({ totalProducts, productCategoryCount, hotVouchers }) {//Com
               {hotVouchers.map((voucher) => (
                 <div
                   key={voucher.id}
-                  className="hero-voucher-card rounded-4"
-                  style={{ background: voucher.accent }}
+                  className={`hero-voucher-card rounded-4 hero-voucher-accent-${voucher.id}`}
                 >
                   <div className="d-flex align-items-start justify-content-between gap-3">
                     <div>
@@ -128,20 +127,14 @@ function HeroBanner({ totalProducts, productCategoryCount, hotVouchers }) {//Com
         <div className="hero-slider-mask position-absolute top-0 start-0 w-100 h-100">
           <div
             onTransitionEnd={handleTransitionEnd}
-            className="hero-slider-track"
-            style={{
-              width: `${loopImages.length * 100}%`,
-              transform: `translateX(-${activeSlide * (100 / loopImages.length)}%)`,
-              transition: isTransitioning
-                ? "transform 1400ms cubic-bezier(0.4, 0, 0.2, 1)"
-                : "none",
-            }}
+            className={`hero-slider-track hero-slider-track-${activeSlide} ${
+              isTransitioning ? "hero-slider-track--transition" : "hero-slider-track--no-transition"
+            }`}
           >
             {loopImages.map((image, index) => (
               <div
                 key={`${image}-${index}`}
                 className="hero-slide"
-                style={{ width: `${100 / loopImages.length}%` }}
               >
                 <img
                   src={image}
@@ -367,7 +360,7 @@ export default function HomePage({ query = "" }) {
                 <div className="flash-deal-item-shell">
                   <ProductCard product={product} />
                   <div className="flash-deal-progress" role="presentation">
-                    <span style={{ width: `${soldPercent}%` }} />
+                    <span className={`flash-deal-progress-fill flash-deal-progress-fill-${soldPercent}`} />
                   </div>
                   <div className="flash-deal-progress-text">Đã bán {soldPercent}%</div>
                 </div>

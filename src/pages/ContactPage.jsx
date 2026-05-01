@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-const PRIMARY = "#ff6b81";
-const PRIMARY_LIGHT = "#fff0f3";
-const PRIMARY_DARK = "#e8556b";
+import "../css/ContactPage.css";
 
 // ── Thông tin liên hệ — chỉnh tại đây ──
 const CONTACT_INFO = {
@@ -60,41 +57,25 @@ export default function ContactPage() {
     }, 1500);
   };
 
-  const inputStyle = (hasError) => ({
-    width: "100%", padding: "12px 14px",
-    border: `1.5px solid ${hasError ? "#e53935" : "#e8e8e8"}`,
-    borderRadius: 10, fontSize: 14, color: "#333",
-    outline: "none", boxSizing: "border-box",
-    background: hasError ? "#fff5f5" : "#fafafa",
-    transition: "border 0.2s",
-  });
-
   return (
-    <div style={{ background: "#f8f8f8", minHeight: "100vh", paddingBottom: 60 }}>
+    <div className="contact-page">
 
       {/* ── HERO BANNER ── */}
-      <div style={{
-        background: `linear-gradient(135deg, ${PRIMARY} 0%, #ff8fa3 50%, #ffb3c1 100%)`,
-        padding: "48px 0 40px", marginBottom: 36, position: "relative", overflow: "hidden",
-      }}>
+      <div className="contact-hero">
         {/* Decorative circles */}
-        {[
-          { w: 200, h: 200, top: -60, right: 80, op: 0.08 },
-          { w: 120, h: 120, top: 20, right: 240, op: 0.06 },
-          { w: 80, h: 80, bottom: -20, left: 120, op: 0.07 },
-        ].map((c, i) => (
-          <div key={i} style={{ position: "absolute", width: c.w, height: c.h, borderRadius: "50%", background: "#fff", opacity: c.op, top: c.top, bottom: c.bottom, left: c.left, right: c.right }} />
-        ))}
+        <div className="contact-hero-circle contact-hero-circle-large" />
+        <div className="contact-hero-circle contact-hero-circle-medium" />
+        <div className="contact-hero-circle contact-hero-circle-small" />
 
-        <div className="container" style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+        <div className="container contact-hero-inner">
           {/* Breadcrumb */}
-          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", marginBottom: 16 }}>
-            <Link to="/" style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>Trang chủ</Link>
-            <span style={{ margin: "0 8px" }}>›</span>
-            <span style={{ color: "#fff" }}>Liên hệ</span>
+          <div className="contact-breadcrumb">
+            <Link to="/" className="contact-breadcrumb-link">Trang chủ</Link>
+            <span className="contact-breadcrumb-separator">›</span>
+            <span className="contact-breadcrumb-current">Liên hệ</span>
           </div>
-          <h1 style={{ color: "#fff", fontWeight: 800, fontSize: 32, margin: "0 0 10px", letterSpacing: 0.5 }}>Liên hệ với chúng tôi</h1>
-          <p style={{ color: "rgba(255,255,255,0.85)", fontSize: 15, margin: 0 }}>
+          <h1 className="contact-hero-title">Liên hệ với chúng tôi</h1>
+          <p className="contact-hero-subtitle">
             Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn 💗
           </p>
         </div>
@@ -103,18 +84,18 @@ export default function ContactPage() {
       <div className="container">
 
         {/* ── 3 THỐNG KÊ NHỎ ── */}
-        <div className="row g-3" style={{ marginBottom: 32 }}>
+        <div className="row g-3 contact-stats-row">
           {[
             { icon: "⚡", title: "Phản hồi nhanh", desc: "Trong vòng 2 giờ làm việc" },
             { icon: "💯", title: "Hỗ trợ tận tâm", desc: "Đội ngũ tư vấn chuyên nghiệp" },
             { icon: "🎁", title: "Tư vấn miễn phí", desc: "Không mất phí tư vấn sản phẩm" },
           ].map((s, i) => (
             <div key={i} className="col-md-4">
-              <div style={{ background: "#fff", borderRadius: 12, padding: "18px 22px", border: "1px solid #eee", display: "flex", alignItems: "center", gap: 14 }}>
-                <div style={{ width: 48, height: 48, borderRadius: "50%", background: PRIMARY_LIGHT, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{s.icon}</div>
+              <div className="contact-stat-card">
+                <div className="contact-stat-icon">{s.icon}</div>
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: "#222" }}>{s.title}</div>
-                  <div style={{ fontSize: 12, color: "#888", marginTop: 2 }}>{s.desc}</div>
+                  <div className="contact-stat-title">{s.title}</div>
+                  <div className="contact-stat-desc">{s.desc}</div>
                 </div>
               </div>
             </div>
@@ -122,58 +103,58 @@ export default function ContactPage() {
         </div>
 
         {/* ── 2 CỘT CHÍNH ── */}
-        <div className="row g-4" style={{ alignItems: "flex-start" }}>
+        <div className="row g-4 contact-main-row">
 
           {/* ════ CỘT TRÁI: FORM ════ */}
           <div className="col-lg-7">
-            <div style={{ background: "#fff", borderRadius: 16, border: "1px solid #eee", padding: "32px 36px", boxShadow: "0 2px 16px rgba(255,107,129,0.06)" }}>
+            <div className="contact-form-card">
 
               {submitted ? (
                 // Màn hình thành công
-                <div style={{ textAlign: "center", padding: "40px 20px" }}>
-                  <div style={{ width: 80, height: 80, borderRadius: "50%", background: PRIMARY_LIGHT, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 40 }}>💌</div>
-                  <h4 style={{ fontWeight: 800, color: PRIMARY, marginBottom: 10 }}>Gửi thành công!</h4>
-                  <p style={{ color: "#666", fontSize: 14, lineHeight: 1.8, marginBottom: 24 }}>
+                <div className="contact-success">
+                  <div className="contact-success-icon">💌</div>
+                  <h4>Gửi thành công!</h4>
+                  <p>
                     Cảm ơn bạn đã liên hệ với <b>PinkyCloud</b>!<br />
-                    Chúng tôi sẽ phản hồi trong vòng <b style={{ color: PRIMARY }}>2 giờ làm việc</b>.
+                    Chúng tôi sẽ phản hồi trong vòng <b>2 giờ làm việc</b>.
                   </p>
                   <button onClick={() => setSubmitted(false)}
-                    style={{ background: PRIMARY, color: "#fff", border: "none", borderRadius: 25, padding: "12px 32px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
+                    className="contact-primary-btn">
                     Gửi tin nhắn khác
                   </button>
                 </div>
               ) : (
                 <>
-                  <h4 style={{ fontWeight: 800, fontSize: 20, marginBottom: 6, color: "#1a1a1a" }}>Gửi tin nhắn cho chúng tôi</h4>
-                  <p style={{ fontSize: 13, color: "#888", marginBottom: 24 }}>Điền thông tin bên dưới, chúng tôi sẽ liên hệ lại sớm nhất.</p>
+                  <h4 className="contact-form-title">Gửi tin nhắn cho chúng tôi</h4>
+                  <p className="contact-form-subtitle">Điền thông tin bên dưới, chúng tôi sẽ liên hệ lại sớm nhất.</p>
 
                   <div className="row g-3">
                     {/* Họ tên */}
                     <div className="col-md-6">
-                      <label style={labelStyle}>Họ và tên <span style={{ color: PRIMARY }}>*</span></label>
-                      <input name="name" value={form.name} onChange={handleChange} placeholder="Nhập họ tên của bạn" style={inputStyle(errors.name)} />
-                      {errors.name && <div style={errStyle}>{errors.name}</div>}
+                      <label className="contact-label">Họ và tên <span>*</span></label>
+                      <input name="name" value={form.name} onChange={handleChange} placeholder="Nhập họ tên của bạn" className={`contact-input ${errors.name ? "contact-input-error" : ""}`} />
+                      {errors.name && <div className="contact-error">{errors.name}</div>}
                     </div>
 
                     {/* Email */}
                     <div className="col-md-6">
-                      <label style={labelStyle}>Email <span style={{ color: PRIMARY }}>*</span></label>
-                      <input name="email" value={form.email} onChange={handleChange} placeholder="example@email.com" style={inputStyle(errors.email)} />
-                      {errors.email && <div style={errStyle}>{errors.email}</div>}
+                      <label className="contact-label">Email <span>*</span></label>
+                      <input name="email" value={form.email} onChange={handleChange} placeholder="example@email.com" className={`contact-input ${errors.email ? "contact-input-error" : ""}`} />
+                      {errors.email && <div className="contact-error">{errors.email}</div>}
                     </div>
 
                     {/* SĐT */}
                     <div className="col-md-6">
-                      <label style={labelStyle}>Số điện thoại</label>
-                      <input name="phone" value={form.phone} onChange={handleChange} placeholder="0909 123 456" inputMode="numeric" maxLength={10} style={inputStyle(errors.phone)} />
-                      {errors.phone && <div style={errStyle}>{errors.phone}</div>}
+                      <label className="contact-label">Số điện thoại</label>
+                      <input name="phone" value={form.phone} onChange={handleChange} placeholder="0909 123 456" inputMode="numeric" maxLength={10} className={`contact-input ${errors.phone ? "contact-input-error" : ""}`} />
+                      {errors.phone && <div className="contact-error">{errors.phone}</div>}
                     </div>
 
                     {/* Chủ đề */}
                     <div className="col-md-6">
-                      <label style={labelStyle}>Chủ đề</label>
+                      <label className="contact-label">Chủ đề</label>
                       <select name="subject" value={form.subject} onChange={handleChange}
-                        style={{ ...inputStyle(false), appearance: "none", cursor: "pointer", color: form.subject ? "#333" : "#aaa" }}>
+                        className={`contact-input contact-select ${form.subject ? "" : "contact-select-placeholder"}`}>
                         <option value="">Chọn chủ đề</option>
                         <option value="tuvan">Tư vấn sản phẩm</option>
                         <option value="donhang">Vấn đề đơn hàng</option>
@@ -185,27 +166,20 @@ export default function ContactPage() {
 
                     {/* Nội dung */}
                     <div className="col-12">
-                      <label style={labelStyle}>Nội dung <span style={{ color: PRIMARY }}>*</span></label>
+                      <label className="contact-label">Nội dung <span>*</span></label>
                       <textarea name="message" value={form.message} onChange={handleChange}
                         placeholder="Nhập nội dung bạn cần hỗ trợ..." rows={5}
-                        style={{ ...inputStyle(errors.message), resize: "vertical", fontFamily: "inherit" }} />
-                      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
-                        {errors.message ? <div style={errStyle}>{errors.message}</div> : <div />}
-                        <div style={{ fontSize: 11, color: "#bbb" }}>{form.message.length}/500</div>
+                        className={`contact-input contact-textarea ${errors.message ? "contact-input-error" : ""}`} />
+                      <div className="contact-message-foot">
+                        {errors.message ? <div className="contact-error">{errors.message}</div> : <div />}
+                        <div className="contact-char-count">{form.message.length}/500</div>
                       </div>
                     </div>
 
                     {/* Nút gửi */}
                     <div className="col-12">
                       <button onClick={handleSubmit} disabled={loading}
-                        style={{
-                          width: "100%", padding: "14px", border: "none", borderRadius: 25,
-                          background: loading ? "#ddd" : `linear-gradient(135deg, ${PRIMARY}, ${PRIMARY_DARK})`,
-                          color: "#fff", fontWeight: 700, fontSize: 15, cursor: loading ? "not-allowed" : "pointer",
-                          display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                          boxShadow: loading ? "none" : `0 4px 16px ${PRIMARY}55`,
-                          transition: "all 0.2s",
-                        }}>
+                        className={`contact-submit-btn ${loading ? "contact-submit-btn-disabled" : ""}`}>
                         {loading ? <><BtnSpinner /> Đang gửi...</> : "💌 Gửi tin nhắn"}
                       </button>
                     </div>
@@ -219,8 +193,8 @@ export default function ContactPage() {
           <div className="col-lg-5">
 
             {/* Thông tin liên hệ */}
-            <div style={{ background: `linear-gradient(135deg, ${PRIMARY} 0%, #ff8fa3 100%)`, borderRadius: 16, padding: "28px 28px", marginBottom: 16, color: "#fff" }}>
-              <h5 style={{ fontWeight: 800, fontSize: 18, marginBottom: 22, color: "#fff" }}>📋 Thông tin liên hệ</h5>
+            <div className="contact-info-card">
+              <h5>📋 Thông tin liên hệ</h5>
 
               {[
                 { icon: "📍", label: "Địa chỉ", value: CONTACT_INFO.address },
@@ -228,68 +202,66 @@ export default function ContactPage() {
                 { icon: "✉️", label: "Email", value: CONTACT_INFO.email },
                 { icon: "🌐", label: "Website", value: CONTACT_INFO.website },
               ].map((item, i) => (
-                <div key={i} style={{ display: "flex", gap: 12, marginBottom: 16, alignItems: "flex-start" }}>
-                  <div style={{ width: 36, height: 36, borderRadius: "50%", background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>
+                <div key={i} className="contact-info-item">
+                  <div className="contact-info-icon">
                     {item.icon}
                   </div>
                   <div>
-                    <div style={{ fontSize: 11, color: "rgba(255,255,255,0.7)", marginBottom: 2 }}>{item.label}</div>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "#fff", lineHeight: 1.5 }}>{item.value}</div>
+                    <div className="contact-info-label">{item.label}</div>
+                    <div className="contact-info-value">{item.value}</div>
                   </div>
                 </div>
               ))}
 
               {/* Giờ làm việc */}
-              <div style={{ borderTop: "1px solid rgba(255,255,255,0.25)", paddingTop: 16, marginTop: 4 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-                  <span style={{ fontSize: 16 }}>🕐</span>
-                  <span style={{ fontWeight: 700, fontSize: 14 }}>Giờ làm việc</span>
+              <div className="contact-hours">
+                <div className="contact-hours-title">
+                  <span>🕐</span>
+                  <span>Giờ làm việc</span>
                 </div>
                 {CONTACT_INFO.hours.map((h, i) => (
-                  <div key={i} style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontSize: 13 }}>
-                    <span style={{ color: "rgba(255,255,255,0.8)" }}>{h.day}</span>
-                    <span style={{ fontWeight: 700 }}>{h.time}</span>
+                  <div key={i} className="contact-hours-row">
+                    <span>{h.day}</span>
+                    <span>{h.time}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Mạng xã hội */}
-            <div style={{ background: "#fff", borderRadius: 16, border: "1px solid #eee", padding: "22px 24px", marginBottom: 16 }}>
-              <h6 style={{ fontWeight: 700, fontSize: 15, marginBottom: 16, color: "#222" }}>🌸 Theo dõi PinkyCloud</h6>
-              <div style={{ display: "flex", gap: 10 }}>
+            <div className="contact-social-card">
+              <h6>🌸 Theo dõi PinkyCloud</h6>
+              <div className="contact-social-list">
                 {SOCIAL_LINKS.map(s => (
                   <a key={s.name} href={s.href} target="_blank" rel="noreferrer"
-                    style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, padding: "12px 6px", background: s.bg, borderRadius: 12, textDecoration: "none", transition: "transform 0.2s" }}
-                    onMouseEnter={e => e.currentTarget.style.transform = "translateY(-3px)"}
-                    onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}>
-                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: s.color, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 800 }}>
+                    className={`contact-social-link contact-social-${s.name.toLowerCase()}`}>
+                    <div className="contact-social-icon">
                       {s.icon}
                     </div>
-                    <span style={{ fontSize: 11, color: s.color, fontWeight: 600 }}>{s.name}</span>
+                    <span>{s.name}</span>
                   </a>
                 ))}
               </div>
             </div>
 
             {/* Hỗ trợ nhanh */}
-            <div style={{ background: PRIMARY_LIGHT, borderRadius: 16, border: `1px solid ${PRIMARY}33`, padding: "18px 22px" }}>
-              <h6 style={{ fontWeight: 700, fontSize: 14, marginBottom: 12, color: PRIMARY }}>⚡ Hỗ trợ nhanh</h6>
+            <div className="contact-quick-card">
+              <h6>⚡ Hỗ trợ nhanh</h6>
               {[
                 { icon: "💬", label: "Chat Zalo", desc: "Nhắn tin ngay", href: "#" },
                 { icon: "📞", label: "Gọi Hotline", desc: CONTACT_INFO.phone, href: `tel:${CONTACT_INFO.phone.replace(/\s/g, "")}` },
                 { icon: "✉️", label: "Gửi Email", desc: CONTACT_INFO.email, href: `mailto:${CONTACT_INFO.email}` },
               ].map((item, i) => (
                 <a key={i} href={item.href}
-                  style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: i < 2 ? `1px solid ${PRIMARY}22` : "none", textDecoration: "none" }}>
-                  <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0, boxShadow: `0 2px 8px ${PRIMARY}22` }}>
+                  className={`contact-quick-link ${i < 2 ? "contact-quick-link-bordered" : ""}`}>
+                  <div className="contact-quick-icon">
                     {item.icon}
                   </div>
                   <div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: "#222" }}>{item.label}</div>
-                    <div style={{ fontSize: 12, color: "#888" }}>{item.desc}</div>
+                    <div className="contact-quick-label">{item.label}</div>
+                    <div className="contact-quick-desc">{item.desc}</div>
                   </div>
-                  <span style={{ marginLeft: "auto", color: PRIMARY, fontSize: 16 }}>›</span>
+                  <span className="contact-quick-arrow">›</span>
                 </a>
               ))}
             </div>
@@ -297,18 +269,18 @@ export default function ContactPage() {
         </div>
 
         {/* ── BẢN ĐỒ GOOGLE MAPS ── */}
-        <div style={{ marginTop: 32, background: "#fff", borderRadius: 16, border: "1px solid #eee", overflow: "hidden", boxShadow: "0 2px 16px rgba(0,0,0,0.06)" }}>
-          <div style={{ padding: "20px 24px 16px", display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ fontSize: 22 }}>🗺️</span>
+        <div className="contact-map-card">
+          <div className="contact-map-head">
+            <span className="contact-map-icon">🗺️</span>
             <div>
-              <h6 style={{ fontWeight: 700, margin: 0, fontSize: 16 }}>Tìm đường đến PinkyCloud</h6>
-              <div style={{ fontSize: 13, color: "#888", marginTop: 2 }}>{CONTACT_INFO.address}</div>
+              <h6>Tìm đường đến PinkyCloud</h6>
+              <div>{CONTACT_INFO.address}</div>
             </div>
           </div>
           <iframe
             src={MAP_SRC}
             width="100%" height="380"
-            style={{ border: 0, display: "block" }}
+            className="contact-map-frame"
             allowFullScreen loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="PinkyCloud Map"
@@ -320,19 +292,8 @@ export default function ContactPage() {
   );
 }
 
-// ── Shared styles ──
-const labelStyle = { fontSize: 13, fontWeight: 600, color: "#444", display: "block", marginBottom: 6 };
-const errStyle = { fontSize: 12, color: "#e53935", marginTop: 4 };
-
 function BtnSpinner() {
   return (
-    <span style={{ width: 16, height: 16, border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />
+    <span className="contact-btn-spinner" />
   );
-}
-
-const s = document.createElement("style");
-s.innerHTML = `@keyframes spin { to { transform: rotate(360deg); } }`;
-if (!document.head.querySelector("[data-contact-spin]")) {
-  s.setAttribute("data-contact-spin", "1");
-  document.head.appendChild(s);
 }

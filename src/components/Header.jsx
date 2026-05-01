@@ -154,27 +154,16 @@ export default function Header({
                     className="nav-link menu-link d-flex align-items-center gap-2"
                     onClick={() => setNavExpanded(false)}
                   >
-                    <span style={{
-                      width: 28, height: 28, borderRadius: "50%",
-                      background: "rgba(255,255,255,0.25)", color: "#fff",
-                      display: "inline-flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 13, fontWeight: 700, flexShrink: 0,
-                    }}>
+                    <span className="header-user-avatar">
                       {cartData.currentUser?.name?.charAt(0)?.toUpperCase() || "U"}
                     </span>
-                    <span style={{ fontSize: 13 }}>Chào, {cartData.currentUser.name}</span>
+                    <span className="header-user-greeting">Chào, {cartData.currentUser.name}</span>
                   </Link>
 
                   {/* Nút đăng xuất */}
                   <button
                     onClick={() => { if (cartData.logout) cartData.logout(); setNavExpanded(false); }}
-                    style={{
-                      background: "rgba(255,255,255,0.2)",
-                      border: "1px solid rgba(255,255,255,0.4)",
-                      color: "#fff", borderRadius: 20,
-                      padding: "4px 14px", fontSize: 13,
-                      cursor: "pointer", whiteSpace: "nowrap",
-                    }}
+                    className="header-logout-btn"
                   >
                     Đăng xuất
                   </button>

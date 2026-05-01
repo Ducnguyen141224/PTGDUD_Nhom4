@@ -1,0 +1,228 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  padding: 28px 32px 24px;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.login-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #888;
+}
+
+.login-modal-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.login-modal-alert {
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+.login-modal-alert--success {
+  background: #fff0f3;
+  color: #c2185b;
+  text-align: center;
+  font-weight: 600;
+}
+
+.login-modal-alert--error {
+  background: #fdecea;
+  color: #c62828;
+}
+
+.login-oauth-btn {
+  width: 100%;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-oauth-btn:disabled,
+.login-submit-btn:disabled {
+  cursor: not-allowed;
+}
+
+.login-oauth-btn--facebook {
+  background: #1877f2;
+  color: #fff;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.login-oauth-btn--facebook.is-loading {
+  background: #aac4f0;
+}
+
+.login-oauth-btn--google {
+  background: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.login-divider {
+  position: relative;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.login-divider hr {
+  border-color: #eee;
+}
+
+.login-divider span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 0 12px;
+  font-size: 13px;
+  color: #999;
+}
+
+.login-field {
+  margin-bottom: 10px;
+}
+
+.login-field--password {
+  position: relative;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background-color: #fafafa;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.login-input--password {
+  padding-right: 40px;
+}
+
+.login-password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 16px;
+}
+
+.login-options-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.login-remember-label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.login-checkbox {
+  accent-color: #ff6b81;
+}
+
+.login-forgot-link {
+  cursor: pointer;
+  color: #ff6b81;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 13px;
+  background: #ff6b81;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.login-submit-btn.is-loading {
+  background: #ccc;
+}
+
+.login-switch-copy {
+  text-align: center;
+  font-size: 14px;
+  margin: 0;
+  color: #333;
+}
+
+.login-switch-link {
+  color: #ff6b81;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: login-spin 0.7s linear infinite;
+}
+
+.login-spinner--google {
+  border-color: #4285f4;
+  border-top-color: transparent;
+}
+
+@keyframes login-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

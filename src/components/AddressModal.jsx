@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
+import "../css/AddressModal.css";
 
 // editData: truyền vào khi muốn chỉnh sửa địa chỉ đã có (không truyền = thêm mới)
 export default function AddressModal({ show, onClose, onSave, editData = null }) {
@@ -81,103 +82,96 @@ export default function AddressModal({ show, onClose, onSave, editData = null })
     onSave({ phone, fullName, province, district, ward, street, addressType, isDefault });
   };
 
-  const inputBase = {
-    width: "100%", padding: "13px 16px",
-    background: "#f2f2f2", border: "1.5px solid transparent",
-    borderRadius: "10px", fontSize: "14px", color: "#333",
-    outline: "none", boxSizing: "border-box", appearance: "none",
-  };
-
   return (
-    <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.65)", zIndex: 1060, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ background: "#fff", borderRadius: "16px", width: "100%", maxWidth: "580px", padding: "28px 32px 24px", position: "relative", boxShadow: "0 16px 48px rgba(0,0,0,0.2)", maxHeight: "90vh", overflowY: "auto" }}>
+    <div className="address-modal-overlay">
+      <div className="address-modal-panel">
 
-        <button onClick={onClose} style={{ position: "absolute", top: "16px", right: "16px", width: 30, height: 30, borderRadius: "50%", background: "#f0f0f0", border: "none", cursor: "pointer", fontSize: "16px", color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+        <button onClick={onClose} className="address-modal-close">✕</button>
 
-        <h5 style={{ fontWeight: 700, fontSize: "18px", marginBottom: "22px", color: "#1a1a1a" }}>
+        <h5 className="address-modal-title">
           {editData ? "✏️ Chỉnh sửa địa chỉ" : "📍 Thêm địa chỉ mới"}
         </h5>
 
         {/* Hàng 1: SĐT + Họ tên */}
-        <div style={{ display: "flex", gap: "12px", marginBottom: phoneError ? "4px" : "12px" }}>
-          <div style={{ flex: 1, position: "relative" }}>
+        <div className={`address-modal-row ${phoneError ? "address-modal-row-tight" : ""}`}>
+          <div className="address-modal-field address-modal-field-relative">
             <input type="tel" placeholder="Số điện thoại" value={phone} onChange={handlePhoneChange}
               maxLength={10} inputMode="numeric"
-              style={{ ...inputBase, paddingRight: "42px", border: phoneError ? "1.5px solid #e53935" : phone.length === 10 ? "1.5px solid #ff6b81" : "1.5px solid transparent", background: phoneError ? "#fff5f5" : "#f2f2f2" }}
+              className={`address-modal-input address-modal-input-icon ${phoneError ? "address-modal-input-error" : phone.length === 10 ? "address-modal-input-valid" : ""}`}
             />
-            <span style={{ position: "absolute", right: "14px", top: "50%", transform: "translateY(-50%)", fontSize: "15px" }}>
+            <span className="address-modal-input-status">
               {phone.length === 10 && !phoneError ? "✅" : phoneError ? "❌" : "📋"}
             </span>
           </div>
-          <div style={{ flex: 1 }}>
-            <input type="text" placeholder="Họ và tên" value={fullName} onChange={e => setFullName(e.target.value)} style={inputBase} />
+          <div className="address-modal-field">
+            <input type="text" placeholder="Họ và tên" value={fullName} onChange={e => setFullName(e.target.value)} className="address-modal-input" />
           </div>
         </div>
-        {phoneError && <div style={{ fontSize: "12px", color: "#e53935", marginBottom: "10px", paddingLeft: "2px" }}>⚠️ {phoneError}</div>}
+        {phoneError && <div className="address-modal-phone-error">⚠️ {phoneError}</div>}
         {!phoneError && phone.length > 0 && phone.length < 10 && (
-          <div style={{ fontSize: "12px", color: "#888", marginBottom: "10px", paddingLeft: "2px" }}>Đã nhập {phone.length}/10 số</div>
+          <div className="address-modal-phone-help">Đã nhập {phone.length}/10 số</div>
         )}
 
         {/* Hàng 2: Tỉnh/TP + Quận/Huyện */}
-        <div style={{ display: "flex", gap: "12px", marginBottom: "12px" }}>
-          <div style={{ flex: 1, position: "relative" }}>
-            <select value={province} onChange={handleProvinceChange} style={{ ...inputBase, paddingRight: "36px", color: province ? "#333" : "#aaa", cursor: "pointer" }}>
+        <div className="address-modal-row">
+          <div className="address-modal-field address-modal-field-relative">
+            <select value={province} onChange={handleProvinceChange} className={`address-modal-input address-modal-select ${province ? "" : "address-modal-select-placeholder"}`}>
               <option value="">Chọn Tỉnh/ TP</option>
               {provinces.map(p => <option key={p} value={p}>{p}</option>)}
             </select>
-            <span style={{ position: "absolute", right: "14px", top: "50%", transform: "translateY(-50%)", color: "#888", pointerEvents: "none", fontSize: "12px" }}>▼</span>
+            <span className="address-modal-select-arrow">▼</span>
           </div>
-          <div style={{ flex: 1, position: "relative" }}>
-            <select value={district} onChange={handleDistrictChange} disabled={!province} style={{ ...inputBase, paddingRight: "36px", color: district ? "#333" : "#aaa", cursor: province ? "pointer" : "not-allowed", opacity: province ? 1 : 0.6 }}>
+          <div className="address-modal-field address-modal-field-relative">
+            <select value={district} onChange={handleDistrictChange} disabled={!province} className={`address-modal-input address-modal-select ${district ? "" : "address-modal-select-placeholder"}`}>
               <option value="">Chọn Quận/ Huyện</option>
               {getDistricts(province).map(d => <option key={d} value={d}>{d}</option>)}
             </select>
-            <span style={{ position: "absolute", right: "14px", top: "50%", transform: "translateY(-50%)", color: "#888", pointerEvents: "none", fontSize: "12px" }}>▼</span>
+            <span className="address-modal-select-arrow">▼</span>
           </div>
         </div>
 
         {/* Phường/Xã */}
-        <div style={{ position: "relative", marginBottom: "12px" }}>
-          <select value={ward} onChange={e => setWard(e.target.value)} disabled={!district} style={{ ...inputBase, paddingRight: "36px", color: ward ? "#333" : "#aaa", cursor: district ? "pointer" : "not-allowed", opacity: district ? 1 : 0.6 }}>
+        <div className="address-modal-select-row">
+          <select value={ward} onChange={e => setWard(e.target.value)} disabled={!district} className={`address-modal-input address-modal-select ${ward ? "" : "address-modal-select-placeholder"}`}>
             <option value="">Chọn Phường/ Xã</option>
             {getWards(province, district).map(w => <option key={w} value={w}>{w}</option>)}
           </select>
-          <span style={{ position: "absolute", right: "14px", top: "50%", transform: "translateY(-50%)", color: "#888", pointerEvents: "none", fontSize: "12px" }}>▼</span>
+          <span className="address-modal-select-arrow">▼</span>
         </div>
 
         {/* Số nhà + Tên đường */}
-        <div style={{ marginBottom: "4px" }}>
+        <div className="address-modal-street-row">
           <input type="text" placeholder="Số nhà + Tên đường" value={street} onChange={e => setStreet(e.target.value)} disabled={!ward}
-            style={{ ...inputBase, opacity: ward ? 1 : 0.6, cursor: ward ? "text" : "not-allowed" }} />
+            className="address-modal-input" />
         </div>
         {!ward
-          ? <p style={{ fontSize: "12px", color: "#e07b39", margin: "6px 0 12px" }}>Vui lòng chọn Tỉnh/TP, Quận/Huyện và Phường/Xã trước khi nhập Số nhà + Tên Đường</p>
-          : <div style={{ marginBottom: "12px" }} />
+          ? <p className="address-modal-street-help">Vui lòng chọn Tỉnh/TP, Quận/Huyện và Phường/Xã trước khi nhập Số nhà + Tên Đường</p>
+          : <div className="address-modal-spacer" />
         }
 
-        {error && <div style={{ background: "#fdecea", color: "#c62828", borderRadius: "8px", padding: "10px 14px", marginBottom: "14px", fontSize: "13px" }}>{error}</div>}
+        {error && <div className="address-modal-error">{error}</div>}
 
         {/* Loại địa chỉ */}
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "18px" }}>
-          <span style={{ fontSize: "14px", color: "#444", marginRight: "4px" }}>Chọn loại địa chỉ</span>
+        <div className="address-modal-type-row">
+          <span className="address-modal-type-label">Chọn loại địa chỉ</span>
           {["Nhà riêng", "Công ty"].map(type => (
-            <button key={type} onClick={() => setAddressType(type)} style={{ padding: "8px 22px", borderRadius: "25px", border: addressType === type ? "none" : "1.5px solid #ccc", background: addressType === type ? "#ff6b81" : "#fff", color: addressType === type ? "#fff" : "#555", fontWeight: addressType === type ? 700 : 400, fontSize: "14px", cursor: "pointer", transition: "all 0.2s" }}>
+            <button key={type} onClick={() => setAddressType(type)} className={`address-modal-type-btn ${addressType === type ? "address-modal-type-btn-active" : ""}`}>
               {type}
             </button>
           ))}
         </div>
 
         {/* Toggle mặc định */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
-          <span style={{ fontSize: "14px", color: "#444" }}>Đặt làm địa chỉ mặc định</span>
-          <div onClick={() => setIsDefault(!isDefault)} style={{ width: 44, height: 24, borderRadius: 12, background: isDefault ? "#ff6b81" : "#ddd", position: "relative", cursor: "pointer", transition: "background 0.25s" }}>
-            <div style={{ position: "absolute", top: 3, left: isDefault ? 22 : 3, width: 18, height: 18, borderRadius: "50%", background: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.2)", transition: "left 0.25s" }} />
+        <div className="address-modal-default-row">
+          <span className="address-modal-default-label">Đặt làm địa chỉ mặc định</span>
+          <div onClick={() => setIsDefault(!isDefault)} className={`address-modal-switch ${isDefault ? "address-modal-switch-on" : ""}`}>
+            <div className="address-modal-switch-knob" />
           </div>
         </div>
 
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px" }}>
-          <button onClick={onClose} style={{ padding: "12px 32px", borderRadius: "25px", background: "#ffe8ec", border: "none", color: "#ff6b81", fontWeight: 600, fontSize: "15px", cursor: "pointer" }}>Hủy</button>
-          <button onClick={handleSave} style={{ padding: "12px 32px", borderRadius: "25px", background: "#ff6b81", border: "none", color: "#fff", fontWeight: 700, fontSize: "15px", cursor: "pointer", boxShadow: "0 4px 12px rgba(45,106,79,0.3)" }}>
+        <div className="address-modal-actions">
+          <button onClick={onClose} className="address-modal-cancel">Hủy</button>
+          <button onClick={handleSave} className="address-modal-save">
             {editData ? "Cập nhật" : "Tiếp tục"}
           </button>
         </div>

@@ -18,3 +18,50 @@
 .footer-scroll-btn:hover {
   transform: translateY(-5px);
 }
+
+/* Extracted inline footer styles */
+.site-footer {
+  background-color: #f76c85;
+  margin-top: 30px;
+}
+
+.footer-inner {
+  padding: 48px 40px 20px;
+}
+
+.footer-heading {
+  font-size: 20px;
+  letter-spacing: 0.4px;
+}
+
+.footer-copy {
+  line-height: 1.8;
+}
+
+.footer-link {
+  text-underline-offset: 3px;
+}
+
+.footer-list {
+  line-height: 2;
+}
+
+.footer-social-row {
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.footer-cert-image {
+  width: 140px;
+  max-width: 100%;
+}
+
+.footer-divider {
+  opacity: 0.35;
+  margin: 28px 0 16px;
+}
+
+.footer-copyright {
+  font-size: 14px;
+  line-height: 1.7;
+}

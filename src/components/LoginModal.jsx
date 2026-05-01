@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { loginUser } from "../hooks/userStorage";
 import ForgotPasswordModal from "./ForgotPasswordModal";
+import "../css/LoginModal.css";
 
 // Thông tin giả lập khi đăng nhập bằng bên thứ ba (OAuth)
 const FAKE_GOOGLE_USER = { name: "Nguyễn Google", email: "user@gmail.com" };
@@ -60,97 +61,91 @@ export default function LoginModal({ show, onClose, onLoginSuccess, onSwitchToRe
   };
 
   // Định nghĩa CSS chung cho các ô Input
-  const inputStyle = {
-    width: "100%", padding: "12px 14px",
-    border: "1px solid #e0e0e0", borderRadius: "8px",
-    fontSize: "14px", outline: "none",
-    backgroundColor: "#fafafa", color: "#333",
-    boxSizing: "border-box",
-  };
+  // CSS chung cho input được tách sang src/css/ExtractedInline.css
 
   return (
-    <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.55)", zIndex: 1050, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ background: "#fff", borderRadius: "12px", width: "100%", maxWidth: "420px", padding: "28px 32px 24px", position: "relative", boxShadow: "0 8px 32px rgba(0,0,0,0.18)" }}>
+    <div className="modal-overlay">
+      <div className="auth-modal">
 
         {/* Nút đóng Modal (X) */}
-        <button onClick={onClose} style={{ position: "absolute", top: "14px", right: "16px", background: "none", border: "none", fontSize: "22px", cursor: "pointer", color: "#888" }}>×</button>
+        <button onClick={onClose} className="login-modal-close">×</button>
 
-        <h5 style={{ textAlign: "center", fontWeight: 700, fontSize: "18px", marginBottom: "20px", color: "#222" }}>Đăng nhập</h5>
+        <h5 className="login-modal-title">Đăng nhập</h5>
 
         {/* Hiển thị thông báo thành công */}
         {successMsg && (
-          <div style={{ background: "#fff0f3", color: "#c2185b", borderRadius: "8px", padding: "10px 14px", marginBottom: "14px", fontSize: "14px", textAlign: "center", fontWeight: 600 }}>
+          <div className="login-modal-alert login-modal-alert--success">
             {successMsg}
           </div>
         )}
 
         {/* Hiển thị thông báo lỗi */}
         {error && (
-          <div style={{ background: "#fdecea", color: "#c62828", borderRadius: "8px", padding: "10px 14px", marginBottom: "14px", fontSize: "14px" }}>
+          <div className="login-modal-alert login-modal-alert--error">
             {error}
           </div>
         )}
 
         {/* Nút Đăng nhập bằng Facebook */}
         <button onClick={() => simulateOAuth("facebook")} disabled={!!loading}
-          style={{ width: "100%", padding: "11px", background: loading === "facebook" ? "#aac4f0" : "#1877f2", color: "#fff", border: "none", borderRadius: "8px", fontSize: "14px", fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", marginBottom: "10px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+          className={`login-oauth-btn login-oauth-btn--facebook${loading === "facebook" ? " is-loading" : ""}`}>
           {loading === "facebook" ? <><Spinner /> Đang kết nối...</> : <><FbIcon /> Facebook</>}
         </button>
 
         {/* Nút Đăng nhập bằng Google */}
         <button onClick={() => simulateOAuth("google")} disabled={!!loading}
-          style={{ width: "100%", padding: "11px", background: "#fff", color: "#333", border: "1px solid #ddd", borderRadius: "8px", fontSize: "14px", fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", marginBottom: "20px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+          className="login-oauth-btn login-oauth-btn--google">
           {loading === "google" ? <><Spinner color="#4285F4" /> Đang kết nối...</> : <><GoogleIcon /> Đăng nhập bằng Google</>}
         </button>
 
         {/* Đường phân cách */}
-        <div style={{ position: "relative", textAlign: "center", marginBottom: "16px" }}>
-          <hr style={{ borderColor: "#eee" }} />
-          <span style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", background: "#fff", padding: "0 12px", fontSize: "13px", color: "#999" }}>
+        <div className="login-divider">
+          <hr />
+          <span>
             Hoặc đăng nhập bằng tài khoản
           </span>
         </div>
 
         {/* Ô nhập Email hoặc Số điện thoại */}
-        <div style={{ marginBottom: "10px" }}>
+        <div className="login-field">
           <input type="text" placeholder="Email hoặc số điện thoại" value={emailInput}
             onChange={e => { setEmailInput(e.target.value); setError(""); }}
-            style={inputStyle} />
+            className="login-input" />
         </div>
 
         {/* Ô nhập Mật khẩu (có nút hiện/ẩn mật khẩu) */}
-        <div style={{ marginBottom: "10px", position: "relative" }}>
+        <div className="login-field login-field--password">
           <input type={showPassword ? "text" : "password"} placeholder="Mật khẩu"
             value={passwordInput}
             onChange={e => { setPasswordInput(e.target.value); setError(""); }}
             onKeyDown={e => e.key === "Enter" && handleNormalLogin()}
-            style={{ ...inputStyle, paddingRight: "40px" }} />
+            className="login-input login-input--password" />
           <button onClick={() => setShowPassword(s => !s)}
-            style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "16px" }}>
+            className="login-password-toggle">
             {showPassword ? "🙈" : "👁️"}
           </button>
         </div>
 
         {/* Lựa chọn Nhớ mật khẩu và Quên mật khẩu */}
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px", fontSize: "13px" }}>
-          <label style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}>
-            <input type="checkbox" style={{ accentColor: "#ff6b81" }} /> Nhớ mật khẩu
+        <div className="login-options-row">
+          <label className="login-remember-label">
+            <input type="checkbox" className="login-checkbox" /> Nhớ mật khẩu
           </label>
-          <p style={{ cursor: "pointer", color: "#ff6b81" }} onClick={() => { setShowForgot(true); }}>
+          <p className="login-forgot-link" onClick={() => { setShowForgot(true); }}>
             Quên mật khẩu?
           </p>
         </div>
 
         {/* Nút Đăng nhập chính */}
         <button onClick={handleNormalLogin} disabled={!!loading}
-          style={{ width: "100%", padding: "13px", background: loading === "normal" ? "#ccc" : "#ff6b81", color: "#fff", border: "none", borderRadius: "25px", fontSize: "15px", fontWeight: 700, cursor: loading ? "not-allowed" : "pointer", marginBottom: "14px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+          className={`login-submit-btn${loading === "normal" ? " is-loading" : ""}`}>
           {loading === "normal" ? <><Spinner /> Đang đăng nhập...</> : "Đăng nhập"}
         </button>
 
         {/* Chuyển sang đăng ký */}
-        <p style={{ textAlign: "center", fontSize: "14px", margin: 0, color: "#333" }}>
+        <p className="login-switch-copy">
           Chưa có tài khoản?{" "}
-          <span onClick={onSwitchToRegister} style={{ color: "#ff6b81", fontWeight: 700, cursor: "pointer" }}>
+          <span onClick={onSwitchToRegister} className="login-switch-link">
             ĐĂNG KÝ NGAY
           </span>
         </p>
@@ -167,7 +162,7 @@ export default function LoginModal({ show, onClose, onLoginSuccess, onSwitchToRe
 // --- CÁC COMPONENT PHỤ (SPINNER & ICONS) ---
 
 function Spinner({ color = "#fff" }) {
-  return <span style={{ width: 16, height: 16, border: `2px solid ${color}`, borderTopColor: "transparent", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />;
+  return <span className={`login-spinner${color === "#4285F4" ? " login-spinner--google" : ""}`} />;
 }
 
 function FbIcon() {
@@ -185,10 +180,4 @@ function GoogleIcon() {
   );
 }
 
-// Tiêm hiệu ứng xoay (animation) cho Spinner vào đầu trang
-const s = document.createElement("style");
-s.innerHTML = `@keyframes spin { to { transform: rotate(360deg); } }`;
-if (!document.head.querySelector("[data-login-spin]")) {
-  s.setAttribute("data-login-spin", "1");
-  document.head.appendChild(s);
-}
+// Hi?u ?ng xoay (animation) cho Spinner ???c chuy?n sang src/css/LoginModal.css

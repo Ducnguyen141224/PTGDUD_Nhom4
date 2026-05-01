@@ -1,6 +1,7 @@
 ﻿import React, { useState } from "react";
 import { useCart } from "../components/CartContext";
 import useProductsData from "../hooks/useProductsData";
+import "../css/AdminProductsPage.css";
 
 // Object mặc định cho form thêm/sửa sản phẩm
 const emptyForm = {
@@ -232,7 +233,7 @@ export default function AdminProductsPage() {
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  style={{ maxWidth: 200, maxHeight: 200, objectFit: "contain", margin: "0 auto" }}
+                  className="admin-preview-image"
                 />
               ) : (
                 <div className="text-muted italic">Chưa có ảnh nào được chọn.</div>
@@ -292,7 +293,7 @@ export default function AdminProductsPage() {
                       <img
                         src={product.image}
                         alt={product.name}
-                        style={{ width: 50, height: 50, objectFit: "contain", borderRadius: 4, background: "#fff", border: "1px solid #ddd" }}
+                        className="admin-product-thumb"
                       />
                     ) : (
                       <span className="text-muted small">Không ảnh</span>

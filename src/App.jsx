@@ -17,6 +17,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import AccountPage from "./pages/AccountPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import useFetch from "./hooks/useFetch";
+import "./css/App.css";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -66,14 +67,14 @@ export default function App() {
 
   return (
     <CartProvider>
-      <div className="d-flex flex-column" style={{ minHeight: "100vh" }}>
+      <div className="d-flex flex-column app-shell">
         <Header
           searchValue={query}
           onSearchChange={setQuery}
           onSearchSubmit={handleSearchSubmit}
         />
 
-        <main style={{ flex: 1 }}>
+        <main className="app-main">
           <Routes>
             <Route path="/" element={<HomePage query={query} />} />
             <Route path="/san-pham" element={<ProductListPage query={query} />} />

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "./CartContext";
+import "../css/ProductCard.css";
 
 function formatVnd(value) {
   return `${value.toLocaleString("vi-VN")}₫`;
@@ -24,7 +25,7 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="pc">
-      <Link to={`/san-pham/${product.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+      <Link to={`/san-pham/${product.id}`} className="pc-link">
         <div className="pc-img-wrap">
           <img src={product.image} alt={product.name} className="pc-img" />
           <div className="pc-shade" />

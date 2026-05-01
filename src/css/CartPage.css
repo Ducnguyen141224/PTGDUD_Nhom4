@@ -1,0 +1,260 @@
+.cart-page {
+  margin-top: 24px;
+  margin-bottom: 80px;
+}
+
+.cart-breadcrumb {
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.cart-breadcrumb-link {
+  color: #6c757d;
+  text-decoration: none;
+}
+
+.cart-breadcrumb-separator {
+  margin: 0 8px;
+  color: #6c757d;
+}
+
+.cart-breadcrumb-current {
+  color: #333;
+}
+
+.cart-title {
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.cart-title span {
+  color: #6c757d;
+  font-size: 20px;
+}
+
+.cart-primary-link,
+.cart-checkout-btn,
+.cart-summary-btn {
+  background: #f76c85;
+  color: #fff;
+}
+
+.cart-checkout-btn {
+  padding: 8px 24px;
+  font-weight: 600;
+}
+
+.cart-table-head {
+  background: #f8f9fa;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cart-item-row {
+  border-bottom: 1px solid #eaeaea;
+}
+
+.cart-item-image-box {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  padding: 4px;
+  border: 1px solid #eaeaea;
+  background: #fff;
+}
+
+.cart-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cart-item-brand {
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.cart-item-name {
+  color: #333;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.cart-remove-btn {
+  width: fit-content;
+  margin-top: 10px;
+  padding: 5px 12px;
+  border: 1px solid #ffd1dc;
+  border-radius: 999px;
+  background: #fff7fa;
+  color: #d92d55;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.cart-remove-btn:hover {
+  border-color: #ff6b81;
+  background: #ff6b81;
+  color: #fff;
+}
+
+.cart-voucher-box {
+  margin-top: 20px;
+  padding: 16px 20px;
+  border: 1px solid #ffe0e8;
+  border-radius: 12px;
+  background: #fff8fb;
+}
+
+.cart-voucher-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.cart-voucher-title {
+  color: #333;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.cart-voucher-list-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #ff6b81;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.cart-voucher-applied {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border: 1.5px solid #ff6b81;
+  border-radius: 8px;
+  background: #fff0f3;
+}
+
+.cart-voucher-code {
+  color: #ff6b81;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.cart-voucher-detail {
+  margin-top: 2px;
+  color: #555;
+  font-size: 13px;
+}
+
+.cart-voucher-detail b {
+  color: #ff6b81;
+}
+
+.cart-voucher-remove {
+  padding: 4px 12px;
+  border: 1px solid #ff6b81;
+  border-radius: 6px;
+  background: none;
+  color: #ff6b81;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cart-voucher-form {
+  display: flex;
+  gap: 8px;
+}
+
+.cart-voucher-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+.cart-voucher-input-error {
+  border-color: #e53935;
+}
+
+.cart-voucher-apply {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #ff6b81;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cart-btn-disabled {
+  cursor: not-allowed;
+}
+
+.cart-voucher-error {
+  margin-top: 6px;
+  color: #e53935;
+  font-size: 12px;
+}
+
+.cart-continue-link {
+  color: #000;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.cart-discount-line {
+  margin-bottom: 2px;
+  color: #888;
+  font-size: 13px;
+}
+
+.cart-line-through {
+  text-decoration: line-through;
+}
+
+.cart-discount-value {
+  margin-left: 8px;
+  color: #22c55e;
+}
+
+.cart-total-line {
+  margin-bottom: 8px;
+}
+
+.cart-total-line span {
+  margin-left: 8px;
+  color: #f76c85;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.cart-summary-card {
+  border-color: #f76c85;
+  background: #fff;
+}
+
+.cart-summary-discount {
+  color: #22c55e;
+}
+
+.cart-summary-total {
+  color: #f76c85;
+}

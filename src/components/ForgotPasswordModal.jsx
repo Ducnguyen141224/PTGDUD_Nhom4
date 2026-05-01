@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../css/ForgotPasswordModal.css";
 
 export default function ForgotPasswordModal({ onClose }) {
   const [email, setEmail] = useState("");
@@ -13,17 +14,7 @@ export default function ForgotPasswordModal({ onClose }) {
   const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
-  const inputStyle = {
-    width: "100%",
-    padding: "12px 14px",
-    border: "1px solid #e0e0e0",
-    borderRadius: "8px",
-    fontSize: "14px",
-    backgroundColor: "#fafafa",
-    boxSizing: "border-box",
-  };
+  const [success, setSuccess] = useState("");
 
   // countdown OTP
   useEffect(() => {
@@ -109,86 +100,38 @@ export default function ForgotPasswordModal({ onClose }) {
   };
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        backgroundColor: "rgba(0,0,0,0.55)",
-        zIndex: 2000,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <div
-        style={{
-          background: "#fff",
-          borderRadius: "12px",
-          width: "100%",
-          maxWidth: "420px",
-          padding: "28px 32px 24px",
-          position: "relative",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
-        }}
-      >
+    <div className="forgot-modal-overlay">
+      <div className="forgot-modal">
         {/* Close */}
         <button
           onClick={onClose}
-          style={{
-            position: "absolute",
-            top: "14px",
-            right: "16px",
-            background: "none",
-            border: "none",
-            fontSize: "22px",
-            cursor: "pointer",
-            color: "#888",
-          }}
+          className="forgot-modal-close"
         >
           ×
         </button>
 
         <h5
-          style={{
-            textAlign: "center",
-            fontWeight: 700,
-            fontSize: "18px",
-            marginBottom: "20px",
-          }}
+          className="forgot-modal-title"
         >
           Quên mật khẩu
         </h5>
 
         {/* SUCCESS */}
         {success && (
-          <div style={{
-            background: "#fff0f3",
-            color: "#c2185b",
-            borderRadius: "8px",
-            padding: "10px",
-            marginBottom: "12px",
-            textAlign: "center",
-            fontWeight: 600,
-          }}>
+          <div className="forgot-alert forgot-alert--success">
             {success}
           </div>
         )}
 
         {/* ERROR */}
         {error && (
-          <div style={{
-            background: "#fdecea",
-            color: "#c62828",
-            borderRadius: "8px",
-            padding: "10px",
-            marginBottom: "12px",
-          }}>
+          <div className="forgot-alert forgot-alert--error">
             {error}
           </div>
         )}
 
         {/* EMAIL */}
-        <div style={{ marginBottom: "10px" }}>
+        <div className="forgot-field">
           <input
             type="email"
             placeholder="Nhập email"
@@ -197,12 +140,12 @@ export default function ForgotPasswordModal({ onClose }) {
               setEmail(e.target.value);
               setError("");
             }}
-            style={inputStyle}
+            className="forgot-input"
           />
         </div>
 
         {/* OTP */}
-        <div style={{ marginBottom: "10px", display: "flex", gap: "8px" }}>
+        <div className="forgot-otp-row">
           <input
             type="text"
             placeholder="Nhập mã OTP"
@@ -211,22 +154,13 @@ export default function ForgotPasswordModal({ onClose }) {
               setOtp(e.target.value);
               setError("");
             }}
-            style={{ ...inputStyle, flex: 1 }}
+            className="forgot-input forgot-otp-input"
           />
 
           <button
             onClick={handleGetOtp}
             disabled={countdown > 0}
-            style={{
-              padding: "0 12px",
-              border: "none",
-              borderRadius: "8px",
-              background: countdown > 0 ? "#ccc" : "#ff6b81",
-              color: "#fff",
-              fontSize: "13px",
-              cursor: countdown > 0 ? "not-allowed" : "pointer",
-              whiteSpace: "nowrap",
-            }}
+            className="forgot-otp-btn"
           >
             {countdown > 0 ? `Gửi lại (${countdown}s)` : "Lấy mã"}
           </button>
@@ -234,22 +168,13 @@ export default function ForgotPasswordModal({ onClose }) {
 
         {/* SHOW OTP */}
         {showOtp && (
-          <div style={{
-            background: "#fff0f3",
-            color: "#c2185b",
-            borderRadius: "8px",
-            padding: "10px",
-            marginBottom: "12px",
-            textAlign: "center",
-            fontWeight: 700,
-            letterSpacing: "2px",
-          }}>
+          <div className="forgot-otp-preview">
             🔑 OTP: {generatedOtp}
           </div>
         )}
 
         {/* PASSWORD */}
-        <div style={{ marginBottom: "10px", position: "relative" }}>
+        <div className="forgot-field forgot-password-field">
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Mật khẩu mới"
@@ -258,26 +183,18 @@ export default function ForgotPasswordModal({ onClose }) {
               setNewPassword(e.target.value);
               setError("");
             }}
-            style={{ ...inputStyle, paddingRight: "40px" }}
+            className="forgot-input forgot-input--password"
           />
           <button
             onClick={() => setShowPassword((s) => !s)}
-            style={{
-              position: "absolute",
-              right: "12px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              border: "none",
-              background: "none",
-              cursor: "pointer",
-            }}
+            className="forgot-password-toggle"
           >
             {showPassword ? "🙈" : "👁"}
           </button>
         </div>
 
         {/* CONFIRM PASSWORD */}
-        <div style={{ marginBottom: "16px" }}>
+        <div className="forgot-field forgot-field--last">
           <input
             type="password"
             placeholder="Xác nhận mật khẩu"
@@ -286,7 +203,7 @@ export default function ForgotPasswordModal({ onClose }) {
               setConfirmPassword(e.target.value);
               setError("");
             }}
-            style={inputStyle}
+            className="forgot-input"
           />
         </div>
 
@@ -294,17 +211,7 @@ export default function ForgotPasswordModal({ onClose }) {
         <button
           onClick={handleReset}
           disabled={loading}
-          style={{
-            width: "100%",
-            padding: "13px",
-            background: loading ? "#ccc" : "#ff6b81",
-            color: "#fff",
-            border: "none",
-            borderRadius: "25px",
-            fontSize: "15px",
-            fontWeight: 700,
-            cursor: loading ? "not-allowed" : "pointer",
-          }}
+          className={`forgot-submit-btn${loading ? " is-loading" : ""}`}
         >
           {loading ? "Đang xử lý..." : "Đổi mật khẩu"}
         </button>

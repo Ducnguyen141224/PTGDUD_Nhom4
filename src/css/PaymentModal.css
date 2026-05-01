@@ -1,0 +1,506 @@
+.payment-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.payment-modal-card {
+  position: relative;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.payment-modal-card-bank {
+  max-width: 480px;
+}
+
+.payment-modal-card-standard {
+  max-width: 400px;
+}
+
+.payment-state-body {
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.payment-state-icon {
+  margin-bottom: 16px;
+  font-size: 48px;
+}
+
+.payment-state-title {
+  margin-top: 20px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.payment-state-subtitle {
+  margin-top: 8px;
+  color: #888;
+  font-size: 13px;
+}
+
+.payment-success-icon,
+.payment-failed-icon {
+  display: flex;
+  width: 72px;
+  height: 72px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  font-size: 36px;
+}
+
+.payment-success-icon {
+  background: #e8f5e9;
+}
+
+.payment-failed-icon {
+  background: #fdecea;
+}
+
+.payment-success-title {
+  margin-bottom: 8px;
+  color: #2e7d32;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.payment-success-order {
+  margin-bottom: 6px;
+  color: #555;
+  font-size: 14px;
+}
+
+.payment-success-order b,
+.payment-success-amount {
+  color: #ff6b81;
+}
+
+.payment-success-amount {
+  margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.payment-failed-title {
+  margin-bottom: 8px;
+  color: #c62828;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.payment-failed-text {
+  margin-bottom: 24px;
+  color: #666;
+  font-size: 14px;
+}
+
+.payment-failed-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.payment-primary-btn,
+.payment-secondary-btn,
+.payment-wallet-pay-btn,
+.payment-wallet-cancel-btn {
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.payment-primary-btn {
+  background: #ff6b81;
+  color: #fff;
+}
+
+.payment-secondary-btn,
+.payment-wallet-cancel-btn {
+  background: #f0f0f0;
+  color: #555;
+}
+
+.payment-full-btn {
+  width: 100%;
+  padding: 12px 40px;
+  font-size: 15px;
+}
+
+.payment-flex-btn {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.payment-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.payment-modal-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.payment-modal-method-icon {
+  font-size: 22px;
+}
+
+.payment-modal-title {
+  color: #222;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.payment-modal-order-code {
+  color: #888;
+  font-size: 12px;
+}
+
+.payment-modal-close {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: #f5f5f5;
+  color: #555;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.payment-modal-content {
+  padding: 20px 24px 24px;
+}
+
+.payment-amount-box {
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: #fff5f7;
+  text-align: center;
+}
+
+.payment-amount-label {
+  margin-bottom: 4px;
+  color: #888;
+  font-size: 12px;
+}
+
+.payment-amount-value {
+  color: #ff6b81;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.payment-bank-qr {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.payment-bank-qr-title {
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.payment-bank-qr-frame {
+  display: inline-block;
+  padding: 10px;
+  border: 2px solid #ff6b81;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.payment-bank-qr-image {
+  display: block;
+  width: 180px;
+  height: 180px;
+}
+
+.payment-hidden {
+  display: none;
+}
+
+.payment-bank-qr-note {
+  margin-top: 6px;
+  color: #aaa;
+  font-size: 11px;
+}
+
+.payment-divider-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.payment-divider-text div {
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+
+.payment-divider-text span {
+  color: #aaa;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.payment-bank-info {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.payment-bank-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.payment-bank-label {
+  flex-shrink: 0;
+  margin-right: 8px;
+  color: #888;
+  font-size: 13px;
+}
+
+.payment-bank-value-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.payment-bank-value {
+  color: #222;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: right;
+}
+
+.payment-bank-value-bold {
+  font-weight: 700;
+}
+
+.payment-copy-btn {
+  padding: 3px 8px;
+  border: none;
+  border-radius: 6px;
+  background: #f0f0f0;
+  color: #555;
+  cursor: pointer;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.payment-copy-btn-done {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.payment-countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: #888;
+  font-size: 13px;
+}
+
+.payment-countdown-warning {
+  color: #e53935;
+}
+
+.payment-countdown b {
+  font-family: monospace;
+  font-size: 15px;
+}
+
+.payment-bank-warning {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  background: #fff8e1;
+  color: #795548;
+  font-size: 12px;
+}
+
+.payment-wallet-section {
+  text-align: center;
+}
+
+.payment-wallet-icon {
+  display: flex;
+  width: 80px;
+  height: 80px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 40px;
+}
+
+.payment-momo-icon {
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d63384, #a50064);
+}
+
+.payment-vnpay-icon {
+  border-radius: 16px;
+  background: linear-gradient(135deg, #005bac, #00a3e0);
+}
+
+.payment-wallet-title {
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.payment-wallet-text {
+  margin-bottom: 24px;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.payment-vnpay-intro {
+  margin-bottom: 20px;
+}
+
+.payment-wallet-box {
+  margin-bottom: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.payment-momo-box {
+  border: 1px solid #e1bee7;
+  background: #f9f0ff;
+}
+
+.payment-vnpay-box {
+  border: 1px solid #90caf9;
+  background: #e3f2fd;
+}
+
+.payment-wallet-box-title {
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.payment-wallet-line {
+  margin-bottom: 6px;
+  color: #555;
+  font-size: 13px;
+}
+
+.payment-wallet-line-last {
+  color: #555;
+  font-size: 13px;
+}
+
+.payment-momo-text {
+  color: #d63384;
+}
+
+.payment-vnpay-text,
+.payment-card-tag {
+  color: #1565c0;
+}
+
+.payment-vnpay-amount {
+  color: #005bac;
+}
+
+.payment-wallet-pay-btn {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 13px;
+  color: #fff;
+  font-size: 15px;
+}
+
+.payment-momo-btn {
+  background: linear-gradient(135deg, #d63384, #a50064);
+}
+
+.payment-vnpay-btn {
+  background: linear-gradient(135deg, #005bac, #00a3e0);
+}
+
+.payment-wallet-cancel-btn {
+  width: 100%;
+  padding: 11px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.payment-demo-note {
+  margin-top: 12px;
+  color: #aaa;
+  font-size: 11px;
+}
+
+.payment-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.payment-card-tag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: #e3f2fd;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.payment-spinner-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+.payment-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #ffe8ec;
+  border-top-color: #ff6b81;
+  border-radius: 50%;
+  animation: payment-spin 0.8s linear infinite;
+}
+
+@keyframes payment-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

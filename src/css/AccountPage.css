@@ -1,0 +1,676 @@
+.account-page {
+  min-height: 100vh;
+  padding-bottom: 60px;
+  background: #f5f5f5;
+}
+
+.account-breadcrumb {
+  padding-top: 20px;
+  padding-bottom: 12px;
+  color: #888;
+  font-size: 13px;
+}
+
+.account-breadcrumb-link {
+  color: #888;
+  text-decoration: none;
+}
+
+.account-breadcrumb-separator {
+  margin: 0 6px;
+}
+
+.account-breadcrumb-current {
+  color: #333;
+}
+
+.account-layout {
+  align-items: flex-start;
+}
+
+.account-profile-card,
+.account-menu,
+.account-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.account-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  padding: 20px 16px;
+}
+
+.account-avatar {
+  display: flex;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b81, #ff8fa3);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.account-profile-name {
+  color: #222;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.account-profile-edit,
+.account-inline-link,
+.account-order-total,
+.account-buyagain-price,
+.account-faq-plus {
+  color: #ff6b81;
+}
+
+.account-profile-edit {
+  margin-top: 2px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.account-menu {
+  overflow: hidden;
+}
+
+.account-menu-item,
+.account-menu-logout {
+  padding: 12px 18px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.account-menu-item {
+  background: #fff;
+  color: #444;
+  font-weight: 400;
+}
+
+.account-menu-item-bordered {
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.account-menu-item:hover,
+.account-menu-item-active,
+.account-menu-logout:hover {
+  color: #ff6b81;
+}
+
+.account-menu-item-active {
+  font-weight: 700;
+}
+
+.account-menu-logout {
+  border-top: 1px solid #f0f0f0;
+  color: #555;
+}
+
+.account-card {
+  margin-bottom: 16px;
+  padding: 24px 28px;
+}
+
+.account-card-compact {
+  padding: 18px 24px;
+}
+
+.account-card-header,
+.account-section-heading,
+.account-order-head,
+.account-order-footer,
+.account-address-card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.account-card-header {
+  margin-bottom: 20px;
+}
+
+.account-card-header h5,
+.account-tab-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.account-primary-sm-btn,
+.account-primary-btn,
+.account-newsletter-btn,
+.account-add-address-link,
+.account-order-buy-btn,
+.account-buyagain-btn,
+.account-explore-link {
+  border: none;
+  border-radius: 4px;
+  background: #ff6b81;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.account-primary-sm-btn {
+  padding: 8px 20px;
+  font-size: 13px;
+}
+
+.account-save-msg,
+.account-buyagain-msg {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.account-save-msg {
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.account-field-label {
+  display: block;
+  margin-bottom: 4px;
+  color: #888;
+  font-size: 12px;
+}
+
+.account-field-label-spaced {
+  margin-bottom: 8px;
+}
+
+.account-input,
+.account-value {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.account-input {
+  padding: 10px 14px;
+  border: 1px solid #e0e0e0;
+  outline: none;
+}
+
+.account-value {
+  padding: 10px 14px;
+  border: 1px solid #f0f0f0;
+  background: #fafafa;
+  color: #222;
+}
+
+.account-empty-value {
+  color: #ccc;
+}
+
+.account-radio-row,
+.account-edit-actions,
+.account-order-actions,
+.account-address-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.account-radio-row {
+  gap: 16px;
+}
+
+.account-radio-label,
+.account-checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.account-radio-label {
+  gap: 6px;
+  font-size: 14px;
+}
+
+.account-accent-input {
+  accent-color: #ff6b81;
+}
+
+.account-edit-actions {
+  margin-top: 20px;
+}
+
+.account-primary-btn {
+  padding: 10px 32px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.account-secondary-btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 4px;
+  background: #f0f0f0;
+  color: #555;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.account-card-subtitle,
+.account-section-heading h6 {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.account-card-subtitle {
+  margin-bottom: 14px;
+}
+
+.account-checkbox-label {
+  gap: 10px;
+  font-size: 14px;
+}
+
+.account-newsletter-btn {
+  margin-top: 14px;
+  padding: 8px 24px;
+  font-size: 14px;
+}
+
+.account-section-heading {
+  margin-bottom: 14px;
+}
+
+.account-section-heading h6 {
+  margin: 0;
+}
+
+.account-inline-link {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.account-empty-text,
+.account-loading,
+.account-empty-state,
+.account-buyagain-empty {
+  color: #aaa;
+}
+
+.account-empty-text {
+  font-size: 14px;
+}
+
+.account-address-preview {
+  padding: 14px 16px;
+  border: 1.5px dashed #ddd;
+  border-radius: 6px;
+}
+
+.account-address-name {
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.account-default-badge-light {
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: #fff0f3;
+  color: #ff6b81;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.account-address-line,
+.account-address-full {
+  color: #666;
+  font-size: 13px;
+}
+
+.account-order-tabs {
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.account-order-tab {
+  flex: 1;
+  padding: 11px 4px;
+  border-bottom: 2px solid transparent;
+  color: #666;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.account-order-tab-active {
+  border-bottom-color: #ff6b81;
+  color: #ff6b81;
+}
+
+.account-loading,
+.account-empty-state,
+.account-buyagain-empty {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.account-empty-icon {
+  margin-bottom: 10px;
+  font-size: 40px;
+}
+
+.account-order-card {
+  margin-bottom: 10px;
+}
+
+.account-order-head {
+  margin-bottom: 10px;
+}
+
+.account-order-id {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.account-order-date {
+  margin-left: 10px;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.account-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.account-status-processing {
+  background: #fffbeb;
+  color: #f59e0b;
+}
+
+.account-status-shipping {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.account-status-delivered {
+  background: #f0fdf4;
+  color: #22c55e;
+}
+
+.account-status-cancelled {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.account-order-items {
+  margin-bottom: 10px;
+  color: #555;
+  font-size: 13px;
+}
+
+.account-order-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.account-order-image {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.account-order-brand,
+.account-buyagain-brand {
+  color: #999;
+  text-transform: uppercase;
+}
+
+.account-order-brand {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.account-order-qty {
+  margin-left: auto;
+  color: #888;
+  font-size: 12px;
+}
+
+.account-order-voucher {
+  margin-bottom: 6px;
+  color: #22c55e;
+  font-size: 12px;
+}
+
+.account-order-footer {
+  padding-top: 10px;
+  border-top: 1px solid #f5f5f5;
+}
+
+.account-order-total {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.account-order-buy-btn,
+.account-order-detail-btn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.account-order-detail-btn {
+  background: #f5f5f5;
+  color: #555;
+}
+
+.account-add-address-link {
+  padding: 8px 18px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.account-address-card {
+  margin-bottom: 12px;
+  padding: 16px 18px;
+  border: 1.5px solid #eee;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.account-address-card-default {
+  border-color: #ff6b81;
+  background: #fff5f7;
+}
+
+.account-address-card-inner {
+  align-items: flex-start;
+}
+
+.account-address-card-content {
+  flex: 1;
+}
+
+.account-address-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.account-address-fullname {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.account-address-phone {
+  color: #888;
+  font-size: 13px;
+}
+
+.account-default-badge {
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: #ff6b81;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.account-address-actions {
+  flex-shrink: 0;
+  margin-left: 12px;
+  gap: 8px;
+}
+
+.account-address-edit-btn,
+.account-address-delete-btn {
+  padding: 5px 12px;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.account-address-edit-btn {
+  border: 1px solid #ddd;
+  color: #555;
+}
+
+.account-address-delete-btn {
+  border: 1px solid #ffcdd2;
+  color: #e53935;
+}
+
+.account-section-title {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.account-buyagain-msg {
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.account-buyagain-empty-icon {
+  margin-bottom: 12px;
+  font-size: 48px;
+}
+
+.account-buyagain-empty-text {
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+
+.account-explore-link {
+  padding: 10px 28px;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.account-buyagain-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.account-buyagain-image {
+  width: 56px;
+  height: 56px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.account-buyagain-info {
+  flex: 1;
+}
+
+.account-buyagain-brand {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.account-buyagain-name {
+  color: #333;
+  font-size: 13px;
+}
+
+.account-buyagain-price,
+.account-buyagain-btn {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.account-buyagain-btn {
+  padding: 6px 16px;
+}
+
+.account-faq-item {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.account-faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.account-faq-title {
+  flex: 1;
+  padding-right: 12px;
+  color: #222;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.account-faq-plus {
+  flex-shrink: 0;
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+
+.account-faq-plus-open {
+  transform: rotate(45deg);
+}
+
+.account-faq-answer {
+  padding-top: 8px;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.7;
+}

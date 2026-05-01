@@ -11,45 +11,39 @@ const scrollToTop = () => {
 
 export default function Footer() {
   return (
-    <footer
-      className="text-white w-100"
-      style={{
-        backgroundColor: "#f76c85",
-        marginTop: 30,
-      }}
-    >
-      <div className="container-fluid" style={{ padding: "48px 40px 20px" }}>
+    <footer className="text-white w-100 site-footer">
+      <div className="container-fluid footer-inner">
         <div className="row g-4">
           <div className="col-12 col-md-6 col-lg-3">
-            <h5 className="fw-bold text-uppercase mb-4" style={{ fontSize: 20, letterSpacing: 0.4 }}>
+            <h5 className="fw-bold text-uppercase mb-4 footer-heading">
               PinkyCloud Office
             </h5>
 
-            <p className="mb-3" style={{ lineHeight: 1.8 }}>
+            <p className="mb-3 footer-copy">
               Địa chỉ: Số 57, đường Quang Trung, quận Gò Vấp, TP. HCM
             </p>
 
-            <p className="mb-3" style={{ lineHeight: 1.8 }}>
+            <p className="mb-3 footer-copy">
               Mail:{" "}
-              <a href="mailto:pinkycloudvietnam@gmail.com" className="text-white" style={{ textUnderlineOffset: 3 }}>
+              <a href="mailto:pinkycloudvietnam@gmail.com" className="text-white footer-link">
                 pinkycloudvietnam@gmail.com
               </a>
             </p>
 
-            <p className="mb-0" style={{ lineHeight: 1.8 }}>
+            <p className="mb-0 footer-copy">
               Website:{" "}
-              <a href="#" className="text-white" style={{ textUnderlineOffset: 3 }}>
+              <a href="#" className="text-white footer-link">
                 www.pinkycloud.vn
               </a>
             </p>
           </div>
 
           <div className="col-12 col-md-6 col-lg-3">
-            <h5 className="fw-bold text-uppercase mb-4" style={{ fontSize: 20, letterSpacing: 0.4 }}>
+            <h5 className="fw-bold text-uppercase mb-4 footer-heading">
               Danh mục
             </h5>
 
-            <ul className="list-unstyled mb-0" style={{ lineHeight: 2 }}>
+            <ul className="list-unstyled mb-0 footer-list">
               <li><Link to="/san-pham?category=R%E1%BB%ADa%20m%E1%BA%B7t" className="text-white text-decoration-none">Chăm Sóc Da Mặt</Link></li>
               <li><Link to="/san-pham?category=Ch%E1%BB%91ng%20n%E1%BA%AFng" className="text-white text-decoration-none">Bảo Vệ Da</Link></li>
               <li><Link to="/san-pham?category=Trang%20%C4%91i%E1%BB%83m" className="text-white text-decoration-none">Trang Điểm</Link></li>
@@ -60,11 +54,11 @@ export default function Footer() {
           </div>
 
           <div className="col-12 col-md-6 col-lg-3">
-            <h5 className="fw-bold text-uppercase mb-4" style={{ fontSize: 20, letterSpacing: 0.4 }}>
+            <h5 className="fw-bold text-uppercase mb-4 footer-heading">
               Chính sách hỗ trợ
             </h5>
 
-            <ul className="list-unstyled mb-0" style={{ lineHeight: 2 }}>
+            <ul className="list-unstyled mb-0 footer-list">
               <li><Link to="/chinh-sach/dieu-khoan-su-dung" className="text-white text-decoration-none">Điều khoản sử dụng</Link></li>
               <li><Link to="/chinh-sach/chinh-sach-bao-mat" className="text-white text-decoration-none">Chính sách bảo mật</Link></li>
               <li><Link to="/chinh-sach/chinh-sach-doi-tra" className="text-white text-decoration-none">Chính sách đổi trả</Link></li>
@@ -74,11 +68,11 @@ export default function Footer() {
           </div>
 
           <div className="col-12 col-md-6 col-lg-3">
-            <h5 className="fw-bold text-uppercase mb-4" style={{ fontSize: 20, letterSpacing: 0.4 }}>
+            <h5 className="fw-bold text-uppercase mb-4 footer-heading">
               Theo dõi chúng tôi
             </h5>
 
-            <div className="d-flex align-items-center flex-wrap" style={{ gap: 12, marginBottom: 20 }}>
+            <div className="d-flex align-items-center flex-wrap footer-social-row">
               <a href="https://facebook.com"><img src="/IMG/fbf.png" alt="Facebook" width="40" /></a>
               <a href="https://instagram.com"><img src="/IMG/linkedin-54890.png" alt="LinkedIn" width="40" /></a>
               <a href="https://tiktok.com"><img src="/IMG/tiktok-56510.png" alt="TikTok" width="40" /></a>
@@ -87,15 +81,15 @@ export default function Footer() {
             </div>
 
             <div>
-              <img src="/IMG/bocongthuong.png" alt="Bộ Công Thương" style={{ width: 140, maxWidth: "100%" }} />
+              <img src="/IMG/bocongthuong.png" alt="Bộ Công Thương" className="footer-cert-image" />
             </div>
           </div>
         </div>
 
-        <hr className="border-white" style={{ opacity: 0.35, margin: "28px 0 16px" }} />
+        <hr className="border-white footer-divider" />
 
         <div className="text-center">
-          <p className="mb-0" style={{ fontSize: 14, lineHeight: 1.7 }}>
+          <p className="mb-0 footer-copyright">
             2023 Copyright PinkyCloud.vn - Sản phẩm chăm sóc da, Mỹ phẩm trang điểm, Mỹ phẩm chính hãng
           </p>
         </div>

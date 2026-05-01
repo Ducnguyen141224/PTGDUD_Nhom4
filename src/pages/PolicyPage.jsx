@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-
-const PRIMARY = "#ff6b81";
+import "../css/PolicyPage.css";
 
 // ── Danh sách các trang điều khoản ──
 const POLICIES = [
@@ -416,47 +415,38 @@ export default function PolicyPage() {
   }, [activeKey]);
 
   return (
-    <div style={{ background: "#f5f5f5", minHeight: "100vh", paddingBottom: 60 }}>
+    <div className="policy-page">
 
       {/* Hero nhỏ */}
-      <div style={{ background: `linear-gradient(135deg, ${PRIMARY}, #ff8fa3)`, padding: "28px 0" }}>
+      <div className="policy-hero">
         <div className="container">
-          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", marginBottom: 8 }}>
-            <Link to="/" style={{ color: "rgba(255,255,255,0.75)", textDecoration: "none" }}>Trang chủ</Link>
-            <span style={{ margin: "0 8px" }}>›</span>
-            <span style={{ color: "#fff" }}>{activePolicy.label}</span>
+          <div className="policy-breadcrumb">
+            <Link to="/" className="policy-breadcrumb-link">Trang chủ</Link>
+            <span className="policy-breadcrumb-separator">›</span>
+            <span className="policy-breadcrumb-current">{activePolicy.label}</span>
           </div>
-          <h1 style={{ color: "#fff", fontWeight: 800, fontSize: 26, margin: 0 }}>
+          <h1 className="policy-hero-title">
             {activePolicy.icon} {activePolicy.label}
           </h1>
         </div>
       </div>
 
-      <div className="container" style={{ marginTop: 24 }}>
-        <div className="row g-4" style={{ alignItems: "flex-start" }}>
+      <div className="container policy-container">
+        <div className="row g-4 policy-row">
 
           {/* ══ SIDEBAR ══ */}
           <div className="col-lg-3">
-            <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #eee", overflow: "hidden", position: "sticky", top: 80 }}>
-              <div style={{ padding: "14px 18px", background: PRIMARY, color: "#fff", fontWeight: 700, fontSize: 14 }}>
+            <div className="policy-sidebar">
+              <div className="policy-sidebar-title">
                 📑 Danh mục điều khoản
               </div>
               {POLICIES.map((p, i) => (
                 <div key={p.key}
                   onClick={() => navigate(`/chinh-sach/${p.key}`)}
-                  style={{
-                    display: "flex", alignItems: "center", gap: 10,
-                    padding: "12px 18px", cursor: "pointer",
-                    borderBottom: i < POLICIES.length - 1 ? "1px solid #f5f5f5" : "none",
-                    background: activeKey === p.key ? "#fff0f3" : "#fff",
-                    borderLeft: activeKey === p.key ? `3px solid ${PRIMARY}` : "3px solid transparent",
-                    transition: "all 0.15s",
-                  }}
-                  onMouseEnter={e => { if (activeKey !== p.key) e.currentTarget.style.background = "#fafafa"; }}
-                  onMouseLeave={e => { if (activeKey !== p.key) e.currentTarget.style.background = "#fff"; }}
+                  className={`policy-sidebar-item ${i < POLICIES.length - 1 ? "policy-sidebar-item-bordered" : ""} ${activeKey === p.key ? "policy-sidebar-item-active" : ""}`}
                 >
-                  <span style={{ fontSize: 16, flexShrink: 0 }}>{p.icon}</span>
-                  <span style={{ fontSize: 13, fontWeight: activeKey === p.key ? 700 : 400, color: activeKey === p.key ? PRIMARY : "#444", lineHeight: 1.4 }}>
+                  <span className="policy-sidebar-icon">{p.icon}</span>
+                  <span className="policy-sidebar-label">
                     {p.label}
                   </span>
                 </div>
@@ -466,32 +456,32 @@ export default function PolicyPage() {
 
           {/* ══ NỘI DUNG ══ */}
           <div className="col-lg-9" ref={contentRef}>
-            <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #eee", padding: "32px 36px" }}>
+            <div className="policy-content-card">
 
               {/* Tiêu đề + ngày cập nhật */}
-              <div style={{ marginBottom: 24, paddingBottom: 16, borderBottom: `2px solid ${PRIMARY}` }}>
-                <h2 style={{ fontWeight: 800, fontSize: 22, color: "#1a1a1a", margin: "0 0 8px" }}>
+              <div className="policy-content-header">
+                <h2>
                   {activePolicy.icon} {activeContent.title}
                 </h2>
-                <span style={{ fontSize: 12, color: "#aaa" }}>
+                <span>
                   📅 Cập nhật lần cuối: {activeContent.updated}
                 </span>
               </div>
 
               {/* Các phần nội dung */}
               {activeContent.sections.map((section, i) => (
-                <div key={i} style={{ marginBottom: 28 }}>
-                  <h4 style={{ fontWeight: 700, fontSize: 15, color: "#222", marginBottom: 10, paddingLeft: 12, borderLeft: `3px solid ${PRIMARY}` }}>
+                <div key={i} className="policy-section">
+                  <h4>
                     {section.heading}
                   </h4>
-                  <div style={{ fontSize: 14, color: "#444", lineHeight: 1.9, whiteSpace: "pre-line", paddingLeft: 4 }}>
+                  <div className="policy-section-body">
                     {section.body}
                   </div>
                 </div>
               ))}
 
               {/* Điều hướng sang trang khác */}
-              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 32, paddingTop: 20, borderTop: "1px solid #f0f0f0" }}>
+              <div className="policy-nav-actions">
                 {(() => {
                   const idx = POLICIES.findIndex(p => p.key === activeKey);
                   const prev = POLICIES[idx - 1];
@@ -500,13 +490,13 @@ export default function PolicyPage() {
                     <>
                       {prev ? (
                         <button onClick={() => navigate(`/chinh-sach/${prev.key}`)}
-                          style={{ background: "#f5f5f5", border: "none", borderRadius: 25, padding: "10px 20px", fontSize: 13, fontWeight: 600, cursor: "pointer", color: "#555", display: "flex", alignItems: "center", gap: 6 }}>
+                          className="policy-nav-btn policy-nav-btn-prev">
                           ← {prev.label}
                         </button>
                       ) : <div />}
                       {next && (
                         <button onClick={() => navigate(`/chinh-sach/${next.key}`)}
-                          style={{ background: PRIMARY, border: "none", borderRadius: 25, padding: "10px 20px", fontSize: 13, fontWeight: 600, cursor: "pointer", color: "#fff", display: "flex", alignItems: "center", gap: 6 }}>
+                          className="policy-nav-btn policy-nav-btn-next">
                           {next.label} →
                         </button>
                       )}
@@ -517,14 +507,14 @@ export default function PolicyPage() {
             </div>
 
             {/* Liên hệ hỗ trợ */}
-            <div style={{ background: "#fff0f3", borderRadius: 12, border: `1px solid ${PRIMARY}33`, padding: "18px 24px", marginTop: 16, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 700, color: PRIMARY, marginBottom: 4 }}>💬 Cần hỗ trợ thêm?</div>
-                <div style={{ fontSize: 13, color: "#666" }}>Đội ngũ PinkyCloud luôn sẵn sàng giải đáp thắc mắc của bạn.</div>
+            <div className="policy-support">
+              <div className="policy-support-text">
+                <div className="policy-support-title">💬 Cần hỗ trợ thêm?</div>
+                <div className="policy-support-desc">Đội ngũ PinkyCloud luôn sẵn sàng giải đáp thắc mắc của bạn.</div>
               </div>
-              <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-                <a href="tel:0909123456" style={{ background: PRIMARY, color: "#fff", borderRadius: 20, padding: "8px 18px", textDecoration: "none", fontSize: 13, fontWeight: 600 }}>📞 0909 123 456</a>
-                <Link to="/lien-he" style={{ background: "#fff", color: PRIMARY, border: `1px solid ${PRIMARY}`, borderRadius: 20, padding: "8px 18px", textDecoration: "none", fontSize: 13, fontWeight: 600 }}>Liên hệ</Link>
+              <div className="policy-support-actions">
+                <a href="tel:0909123456" className="policy-support-phone">📞 0909 123 456</a>
+                <Link to="/lien-he" className="policy-support-link">Liên hệ</Link>
               </div>
             </div>
           </div>

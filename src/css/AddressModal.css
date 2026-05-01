@@ -1,0 +1,265 @@
+.address-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.65);
+}
+
+.address-modal-panel {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px 32px 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+}
+
+.address-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: #f0f0f0;
+  color: #555;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.address-modal-title {
+  margin-bottom: 22px;
+  color: #1a1a1a;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.address-modal-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.address-modal-row-tight {
+  margin-bottom: 4px;
+}
+
+.address-modal-field {
+  flex: 1;
+}
+
+.address-modal-field-relative,
+.address-modal-select-row {
+  position: relative;
+}
+
+.address-modal-select-row {
+  margin-bottom: 12px;
+}
+
+.address-modal-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 16px;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  outline: none;
+  appearance: none;
+  background: #f2f2f2;
+  color: #333;
+  font-size: 14px;
+}
+
+.address-modal-input:disabled,
+.address-modal-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.address-modal-input-icon {
+  padding-right: 42px;
+}
+
+.address-modal-input-error {
+  border-color: #e53935;
+  background: #fff5f5;
+}
+
+.address-modal-input-valid {
+  border-color: #ff6b81;
+}
+
+.address-modal-input-status {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  font-size: 15px;
+}
+
+.address-modal-select {
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.address-modal-select-placeholder {
+  color: #aaa;
+}
+
+.address-modal-select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
+  font-size: 12px;
+}
+
+.address-modal-phone-error {
+  margin-bottom: 10px;
+  padding-left: 2px;
+  color: #e53935;
+  font-size: 12px;
+}
+
+.address-modal-phone-help {
+  margin-bottom: 10px;
+  padding-left: 2px;
+  color: #888;
+  font-size: 12px;
+}
+
+.address-modal-street-row {
+  margin-bottom: 4px;
+}
+
+.address-modal-street-help {
+  margin: 6px 0 12px;
+  color: #e07b39;
+  font-size: 12px;
+}
+
+.address-modal-spacer {
+  margin-bottom: 12px;
+}
+
+.address-modal-error {
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #fdecea;
+  color: #c62828;
+  font-size: 13px;
+}
+
+.address-modal-type-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.address-modal-type-label,
+.address-modal-default-label {
+  color: #444;
+  font-size: 14px;
+}
+
+.address-modal-type-label {
+  margin-right: 4px;
+}
+
+.address-modal-type-btn {
+  padding: 8px 22px;
+  border: 1.5px solid #ccc;
+  border-radius: 25px;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  transition: all 0.2s;
+}
+
+.address-modal-type-btn-active {
+  border-color: transparent;
+  background: #ff6b81;
+  color: #fff;
+  font-weight: 700;
+}
+
+.address-modal-default-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.address-modal-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: #ddd;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.address-modal-switch-on {
+  background: #ff6b81;
+}
+
+.address-modal-switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transition: left 0.25s;
+}
+
+.address-modal-switch-on .address-modal-switch-knob {
+  left: 22px;
+}
+
+.address-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.address-modal-cancel,
+.address-modal-save {
+  padding: 12px 32px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.address-modal-cancel {
+  background: #ffe8ec;
+  color: #ff6b81;
+  font-weight: 600;
+}
+
+.address-modal-save {
+  background: #ff6b81;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(45, 106, 79, 0.3);
+}

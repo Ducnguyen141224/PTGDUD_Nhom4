@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { isContactTaken, registerUser } from "../hooks/userStorage.jsx";
+import "../css/RegisterModal.css";
 
 // Hàm hỗ trợ tạo mã Captcha ngẫu nhiên gồm 5 ký tự
 function generateCaptcha() {
@@ -160,135 +161,128 @@ export default function RegisterModal({ show, onClose, onSwitchToLogin }) {
     setErrors((prev) => ({ ...prev, captcha: undefined }));
   }
 
-  // Cấu trúc CSS Inline cơ bản cho giao diện
-  const inputBase = {
-    width: "100%", padding: "10px 14px", border: "1px solid #e0e0e0",
-    borderRadius: "6px", fontSize: "14px", outline: "none",
-    backgroundColor: "#fff", color: "#333", boxSizing: "border-box",
-  };
-  const inputErr = { ...inputBase, border: "1px solid #e53935", background: "#fff5f5" };
-  const errText = { fontSize: "12px", color: "#e53935", marginTop: "3px" };
+  // Cấu trúc CSS cho giao diện đã được tách sang src/css/RegisterModal.css
 
   return (
-    <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.55)", zIndex: 1050, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ background: "#fff", borderRadius: "12px", width: "100%", maxWidth: "460px", maxHeight: "92vh", overflowY: "auto", padding: "28px 32px 24px", position: "relative", boxShadow: "0 8px 40px rgba(0,0,0,0.18)" }}>
+    <div className="register-modal-overlay">
+      <div className="register-modal-panel">
 
         {/* Nút đóng X ở góc trên bên phải */}
-        <button onClick={onClose} style={{ position: "absolute", top: "14px", right: "16px", background: "none", border: "none", fontSize: "22px", cursor: "pointer", color: "#888" }}>×</button>
+        <button onClick={onClose} className="register-modal-close">×</button>
 
         {registerSuccess ? (
           /* GIAO DIỆN KHI ĐĂNG KÝ THÀNH CÔNG */
-          <div style={{ textAlign: "center", padding: "32px 16px" }}>
-            <div style={{ width: 72, height: 72, borderRadius: "50%", background: "#fff0f3", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px", fontSize: 36 }}>✔</div>
-            <h5 style={{ fontWeight: 800, color: "#ff6b81", marginBottom: 8 }}>Đăng ký thành công!</h5>
-            <p style={{ fontSize: 14, color: "#555", lineHeight: 1.7, marginBottom: 8 }}>
+          <div className="register-success">
+            <div className="register-success-icon">✔</div>
+            <h5 className="register-success-title">Đăng ký thành công!</h5>
+            <p className="register-success-text">
               Xin chào <b>{name}</b>! Tài khoản của bạn đã được tạo thành công.
             </p>
-            <div style={{ background: "#fff8e1", border: "1px dashed #ffc107", borderRadius: 8, padding: "10px 14px", fontSize: 13, color: "#795548", marginBottom: 20, textAlign: "left" }}>
+            <div className="register-success-account">
               Tài khoản: <b>{contact}</b>
             </div>
             <button onClick={() => { setRegisterSuccess(false); onSwitchToLogin(); }}
-              style={{ width: "100%", padding: "13px", background: "#ff6b81", color: "#fff", border: "none", borderRadius: "25px", fontSize: "15px", fontWeight: 700, cursor: "pointer", marginBottom: 10 }}>
+              className="register-primary-btn register-success-login-btn">
               Đăng nhập ngay
             </button>
             <button onClick={onClose}
-              style={{ width: "100%", padding: "11px", background: "#f5f5f5", color: "#555", border: "none", borderRadius: "25px", fontSize: "14px", fontWeight: 600, cursor: "pointer" }}>
+              className="register-home-btn">
               Về trang chủ
             </button>
           </div>
         ) : (
           /* GIAO DIỆN FORM ĐĂNG KÝ */
           <>
-            <div style={{ textAlign: "center", marginBottom: "20px" }}>
-              <h5 style={{ fontWeight: 700, fontSize: "17px", color: "#222" }}>ĐĂNG KÝ TÀI KHOẢN</h5>
+            <div className="register-form-heading">
+              <h5>ĐĂNG KÝ TÀI KHOẢN</h5>
             </div>
 
             {/* Ô nhập Email hoặc Số điện thoại */}
-            <div style={{ marginBottom: "12px" }}>
+            <div className="register-field">
               <input type="text" placeholder="Nhập email hoặc số điện thoại *" value={contact}
                 onChange={(e) => { setContact(e.target.value); setErrors((prev) => ({ ...prev, contact: undefined })); }}
-                style={errors.contact ? inputErr : inputBase} />
-              {errors.contact && <div style={errText}>{errors.contact}</div>}
+                className={`register-input ${errors.contact ? "register-input-error" : ""}`} />
+              {errors.contact && <div className="register-error-text">{errors.contact}</div>}
             </div>
 
             {/* Ô nhập Captcha và hình ảnh mã */}
-            <div style={{ marginBottom: "12px" }}>
-              <div style={{ display: "flex", gap: "8px", alignItems: "stretch" }}>
+            <div className="register-field">
+              <div className="register-inline-field">
                 <input type="text" placeholder="Nhập mã captcha *" value={captchaInput}
                   onChange={(e) => { setCaptchaInput(e.target.value); setErrors((prev) => ({ ...prev, captcha: undefined })); }}
-                  style={{ ...(errors.captcha ? inputErr : inputBase), flex: 1, width: "auto" }} />
-                <div style={{ background: "#1b4332", color: "#fff", fontWeight: 700, fontSize: "17px", padding: "10px 14px", borderRadius: "6px", letterSpacing: "5px", fontFamily: "monospace", userSelect: "none", display: "flex", alignItems: "center" }}>
+                  className={`register-input register-input-grow ${errors.captcha ? "register-input-error" : ""}`} />
+                <div className="register-captcha-code">
                   {captchaCode}
                 </div>
-                <button onClick={refreshCaptcha} title="Làm mới" style={{ background: "#f5f5f5", border: "1px solid #ddd", borderRadius: "6px", padding: "0 12px", cursor: "pointer", fontSize: "18px" }}>↻</button>
+                <button onClick={refreshCaptcha} title="Làm mới" className="register-refresh-btn">↻</button>
               </div>
-              {errors.captcha && <div style={errText}>{errors.captcha}</div>}
+              {errors.captcha && <div className="register-error-text">{errors.captcha}</div>}
             </div>
 
             {/* Ô nhập mã OTP */}
-            <div style={{ marginBottom: "12px" }}>
-              <div style={{ display: "flex", gap: "8px" }}>
+            <div className="register-field">
+              <div className="register-inline-field">
                 <input type="text" placeholder="Nhập mã OTP 6 số *" value={otp}
                   onChange={(e) => { setOtp(e.target.value.replace(/\D/g, "").slice(0, 6)); setErrors((prev) => ({ ...prev, otp: undefined })); }}
-                  maxLength={6} style={{ ...(errors.otp ? inputErr : inputBase), flex: 1, width: "auto" }} />
+                  maxLength={6} className={`register-input register-input-grow ${errors.otp ? "register-input-error" : ""}`} />
                 <button onClick={handleSendOtp} disabled={otpCountdown > 0}
-                  style={{ background: otpCountdown > 0 ? "#ccc" : "#ff6b81", color: "#fff", border: "none", borderRadius: "6px", padding: "10px 12px", fontSize: "13px", fontWeight: 600, cursor: otpCountdown > 0 ? "not-allowed" : "pointer", whiteSpace: "nowrap", minWidth: "90px" }}>
+                  className={`register-otp-btn ${otpCountdown > 0 ? "register-btn-disabled" : ""}`}>
                   {otpCountdown > 0 ? `Gửi lại (${otpCountdown}s)` : "Lấy mã OTP"}
                 </button>
               </div>
-              {errors.otp && <div style={errText}>{errors.otp}</div>}
+              {errors.otp && <div className="register-error-text">{errors.otp}</div>}
               {/* Hiển thị mã OTP giả lập cho mục đích demo */}
               {otpSent && simulatedOtp && (
-                <div style={{ marginTop: "6px", padding: "10px 14px", background: "#fff0f3", border: "1px dashed #ff6b81", borderRadius: "6px", fontSize: "13px", color: "#c2185b" }}>
+                <div className="register-otp-demo">
                   Mã OTP gửi đến <b>{contact}</b>:
-                  <div style={{ fontSize: "24px", fontWeight: 800, letterSpacing: "8px", marginTop: "4px", fontFamily: "monospace" }}>{simulatedOtp}</div>
-                  <div style={{ fontSize: "11px", color: "#888" }}>(Hệ thống thử nghiệm, thực tế sẽ gửi qua email/SMS)</div>
+                  <div className="register-otp-code">{simulatedOtp}</div>
+                  <div className="register-otp-note">(Hệ thống thử nghiệm, thực tế sẽ gửi qua email/SMS)</div>
                 </div>
               )}
             </div>
 
             {/* Ô nhập mật khẩu */}
-            <div style={{ marginBottom: "12px" }}>
-              <div style={{ position: "relative" }}>
+            <div className="register-field">
+              <div className="register-password-wrap">
                 <input type={showPassword ? "text" : "password"} placeholder="Mật khẩu từ 6 - 32 ký tự *"
                   value={password} onChange={(e) => { setPassword(e.target.value); setErrors((prev) => ({ ...prev, password: undefined })); }}
-                  style={{ ...(errors.password ? inputErr : inputBase), paddingRight: "40px" }} />
+                  className={`register-input register-input-password ${errors.password ? "register-input-error" : ""}`} />
                 <button onClick={() => setShowPassword((value) => !value)}
-                  style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#aaa", fontSize: "13px" }}>
+                  className="register-password-toggle">
                   {showPassword ? "Ẩn" : "Hiện"}
                 </button>
               </div>
-              {errors.password && <div style={errText}>{errors.password}</div>}
+              {errors.password && <div className="register-error-text">{errors.password}</div>}
             </div>
 
             {/* Ô xác nhận mật khẩu */}
-            <div style={{ marginBottom: "12px" }}>
+            <div className="register-field">
               <input type="password" placeholder="Xác nhận mật khẩu *" value={confirmPassword}
                 onChange={(e) => { setConfirmPassword(e.target.value); setErrors((prev) => ({ ...prev, confirmPassword: undefined })); }}
-                style={errors.confirmPassword ? inputErr : inputBase} />
-              {errors.confirmPassword && <div style={errText}>{errors.confirmPassword}</div>}
+                className={`register-input ${errors.confirmPassword ? "register-input-error" : ""}`} />
+              {errors.confirmPassword && <div className="register-error-text">{errors.confirmPassword}</div>}
             </div>
 
             {/* Ô nhập họ và tên */}
-            <div style={{ marginBottom: "12px" }}>
+            <div className="register-field">
               <input type="text" placeholder="Họ và tên *" value={name}
                 onChange={(e) => { setName(e.target.value); setErrors((prev) => ({ ...prev, name: undefined })); }}
-                style={errors.name ? inputErr : inputBase} />
-              {errors.name && <div style={errText}>{errors.name}</div>}
+                className={`register-input ${errors.name ? "register-input-error" : ""}`} />
+              {errors.name && <div className="register-error-text">{errors.name}</div>}
             </div>
 
             {/* Lựa chọn giới tính */}
-            <div style={{ marginBottom: "12px", display: "flex", gap: "20px" }}>
+            <div className="register-gender-row">
               {[{ value: "khong_xac_dinh", label: "Khác" }, { value: "nam", label: "Nam" }, { value: "nu", label: "Nữ" }].map((option) => (
-                <label key={option.value} style={{ display: "flex", alignItems: "center", gap: "5px", cursor: "pointer", fontSize: "14px" }}>
-                  <input type="radio" name="gender" value={option.value} checked={gender === option.value} onChange={() => setGender(option.value)} style={{ accentColor: "#ff6b81" }} />
+                <label key={option.value} className="register-inline-label">
+                  <input type="radio" name="gender" value={option.value} checked={gender === option.value} onChange={() => setGender(option.value)} className="register-accent-input" />
                   {option.label}
                 </label>
               ))}
             </div>
 
             {/* Ô chọn ngày sinh */}
-            <div style={{ marginBottom: "4px", display: "flex", gap: "8px" }}>
+            <div className="register-dob-row">
               {[
                 { label: "Ngày", value: day, setter: setDay, options: days },
                 { label: "Tháng", value: month, setter: setMonth, options: months },
@@ -296,58 +290,58 @@ export default function RegisterModal({ show, onClose, onSwitchToLogin }) {
               ].map((item) => (
                 <select key={item.label} value={item.value}
                   onChange={(e) => { item.setter(e.target.value); setErrors((prev) => ({ ...prev, dob: undefined })); }}
-                  style={{ flex: 1, padding: "10px 8px", border: `1px solid ${errors.dob ? "#e53935" : "#e0e0e0"}`, borderRadius: "6px", fontSize: "14px", color: item.value ? "#333" : "#999", background: "#fff", cursor: "pointer" }}>
+                  className={`register-dob-select ${errors.dob ? "register-input-error" : ""} ${item.value ? "" : "register-dob-placeholder"}`}>
                   <option value="">{item.label}</option>
                   {item.options.map((option) => <option key={option} value={option}>{option}</option>)}
                 </select>
               ))}
             </div>
-            {errors.dob && <div style={{ ...errText, marginBottom: "8px" }}>{errors.dob}</div>}
+            {errors.dob && <div className="register-error-text register-dob-error">{errors.dob}</div>}
 
-            <div style={{ borderTop: "1px solid #f0f0f0", margin: "14px 0" }} />
+            <div className="register-divider" />
 
             {/* KHỐI CÁC ĐIỀU KHOẢN VÀ CHÍNH SÁCH */}
-            <div style={{ marginBottom: "16px" }}>
-              <label style={{ display: "flex", gap: "8px", alignItems: "flex-start", marginBottom: "8px", cursor: "pointer" }}>
+            <div className="register-terms">
+              <label className="register-check-label">
                 <input type="checkbox" checked={agreed} onChange={(e) => { setAgreed(e.target.checked); setErrors((prev) => ({ ...prev, agreed: undefined })); }}
-                  style={{ marginTop: "2px", accentColor: "#ff6b81", flexShrink: 0 }} />
-                <span style={{ fontSize: "13px", color: "#333", lineHeight: "1.5" }}>
+                  className="register-checkbox" />
+                <span className="register-term-text register-term-text-spaced">
                   Tôi đã đọc và đồng ý với{" "}
-                  <Link to="/chinh-sach/dieu-kien-giao-dich-chung" target="_blank" style={{ color: "#ff6b81", fontWeight: 600 }}>Điều kiện giao dịch chung</Link>
+                  <Link to="/chinh-sach/dieu-kien-giao-dich-chung" target="_blank" className="register-link">Điều kiện giao dịch chung</Link>
                   {" "}và{" "}
-                  <Link to="/chinh-sach/chinh-sach-bao-mat" target="_blank" style={{ color: "#ff6b81", fontWeight: 600 }}>Chính sách bảo mật</Link>
+                  <Link to="/chinh-sach/chinh-sach-bao-mat" target="_blank" className="register-link">Chính sách bảo mật</Link>
                 </span>
               </label>
-              {errors.agreed && <div style={{ ...errText, marginLeft: "24px", marginBottom: "6px" }}>{errors.agreed}</div>}
+              {errors.agreed && <div className="register-error-text register-check-error">{errors.agreed}</div>}
 
-              <label style={{ display: "flex", gap: "8px", alignItems: "flex-start", marginBottom: "8px", cursor: "pointer" }}>
-                <input type="checkbox" checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} style={{ marginTop: "2px", accentColor: "#ff6b81", flexShrink: 0 }} />
-                <span style={{ fontSize: "13px", color: "#333" }}>
+              <label className="register-check-label">
+                <input type="checkbox" checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} className="register-checkbox" />
+                <span className="register-term-text">
                   Nhận thông tin khuyến mãi qua e-mail -{" "}
-                  <Link to="/chinh-sach/chinh-sach-khuyen-mai" target="_blank" style={{ color: "#ff6b81", fontWeight: 600 }}>Xem chính sách</Link>
+                  <Link to="/chinh-sach/chinh-sach-khuyen-mai" target="_blank" className="register-link">Xem chính sách</Link>
                 </span>
               </label>
 
-              <label style={{ display: "flex", gap: "8px", alignItems: "flex-start", cursor: "pointer" }}>
+              <label className="register-check-label register-check-label-last">
                 <input type="checkbox" checked={privacy} onChange={(e) => { setPrivacy(e.target.checked); setErrors((prev) => ({ ...prev, privacy: undefined })); }}
-                  style={{ marginTop: "2px", accentColor: "#ff6b81", flexShrink: 0 }} />
-                <span style={{ fontSize: "13px", color: "#333" }}>
+                  className="register-checkbox" />
+                <span className="register-term-text">
                   Tôi đồng ý với{" "}
-                  <Link to="/chinh-sach/chinh-sach-du-lieu-ca-nhan" target="_blank" style={{ color: "#ff6b81", fontWeight: 600 }}>chính sách xử lý dữ liệu cá nhân</Link>
+                  <Link to="/chinh-sach/chinh-sach-du-lieu-ca-nhan" target="_blank" className="register-link">chính sách xử lý dữ liệu cá nhân</Link>
                 </span>
               </label>
-              {errors.privacy && <div style={{ ...errText, marginLeft: "24px", marginTop: "4px" }}>{errors.privacy}</div>}
+              {errors.privacy && <div className="register-error-text register-check-error-top">{errors.privacy}</div>}
             </div>
 
             {/* Nút hoàn tất đăng ký */}
             <button onClick={handleSubmit} disabled={submitting}
-              style={{ width: "100%", padding: "13px", background: submitting ? "#ccc" : "#ff6b81", color: "#fff", border: "none", borderRadius: "25px", fontSize: "15px", fontWeight: 700, cursor: submitting ? "not-allowed" : "pointer", marginBottom: "14px" }}>
+              className={`register-submit-btn ${submitting ? "register-btn-disabled" : ""}`}>
               {submitting ? "Đang tạo tài khoản..." : "ĐĂNG KÝ"}
             </button>
 
-            <p style={{ textAlign: "center", fontSize: "14px", margin: "0 0 10px", color: "#333" }}>
+            <p className="register-login-text">
               Bạn đã có tài khoản?{" "}
-              <span onClick={onSwitchToLogin} style={{ color: "#ff6b81", fontWeight: 700, cursor: "pointer" }}>ĐĂNG NHẬP</span>
+              <span onClick={onSwitchToLogin} className="register-login-link">ĐĂNG NHẬP</span>
             </p>
           </>
         )}

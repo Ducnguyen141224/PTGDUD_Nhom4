@@ -1,5 +1,3 @@
-// Tài khoản Admin mặc định để phục vụ việc kiểm thử trang Quản trị
-
 /**
  * Hàm bổ trợ gọi API backend và trả về dữ liệu JSON.
  * Tự động xử lý lỗi và thiết lập Header mặc định.
@@ -23,23 +21,6 @@ async function apiRequest(path, options = {}) {
 
   return data;
 }
-
-/**
- * Lấy danh sách người dùng từ MongoDB (Dùng cho kiểm tra admin).
- */
-export const getUsers = async () => {
-  try {
-    const result = await apiRequest("/api/auth/check-contact", {
-      method: "POST",
-      body: JSON.stringify({ contact: DEFAULT_ADMIN.contact }),
-    });
-
-    // Nếu admin tồn tại trong DB thì trả về mảng chứa admin, ngược lại trả về mảng rỗng
-    return result.exists ? [DEFAULT_ADMIN] : [];
-  } catch {
-    return [];
-  }
-};
 
 /**
  * Xử lý đăng ký tài khoản mới.

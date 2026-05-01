@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import useProductsData from "../hooks/useProductsData";
+import "../css/ProductListPage.css";
 
 export default function ProductListPage({ query = "" }) {
   //  Fetch toàn bộ sản phẩm từ API 
@@ -76,23 +77,6 @@ export default function ProductListPage({ query = "" }) {
     safePage * itemsPerPage
   );
 
-  //  Style động cho nút sắp xếp (active vs inactive)
-  const getSortBtnStyle = (isActive) => ({
-    padding: "8px 16px",
-    borderRadius: "20px",
-    fontSize: "0.95rem",
-    fontWeight: "500",
-    display: "flex",
-    alignItems: "center",
-    gap: "6px",
-    transition: "all 0.2s ease",
-    backgroundColor: isActive ? "#f0f5ff" : "#f8f9fa",
-    color: isActive ? "#2b6cb0" : "#333",
-    border: isActive ? "1px solid #3182ce" : "1px solid #e9ecef",
-    cursor: "pointer",
-    whiteSpace: "nowrap",
-  });
-
   // Trạng thái loading / error 
   if (loading) {
     return (
@@ -112,34 +96,24 @@ export default function ProductListPage({ query = "" }) {
 
 
   return (
-    <div className="container-fluid" style={{ marginTop: 24, marginBottom: 80, padding: "0 5%" }}>
+    <div className="container-fluid product-list-page">
 
       {/* Breadcrumb: Trang chủ > Bộ sưu tập */}
       <div className="mb-3">
-        <nav style={{ fontSize: "0.9rem" }}>
-          <Link to="/" style={{ textDecoration: "none", color: "#6c757d" }}>Trang chủ</Link>
-          <span style={{ margin: "0 8px", color: "#6c757d" }}>&gt;</span>
-          <span style={{ color: "#333", fontWeight: 600 }}>Bộ sưu tập</span>
+        <nav className="product-list-breadcrumb">
+          <Link to="/" className="product-list-breadcrumb-link">Trang chủ</Link>
+          <span className="product-list-breadcrumb-separator">&gt;</span>
+          <span className="product-list-breadcrumb-current">Bộ sưu tập</span>
         </nav>
       </div>
 
       {/* Thanh lọc danh mục — scroll ngang trên mobile */}
-      <div className="d-flex flex-nowrap overflow-auto mb-4 pb-2" style={{ gap: "12px", WebkitOverflowScrolling: "touch" }}>
+      <div className="d-flex flex-nowrap overflow-auto mb-4 pb-2 product-list-category-scroll">
         {categories.map((value) => (
           <button
             key={value}
             onClick={() => { setCategory(value); setPage(1); }} // đổi danh mục + reset trang
-            style={{
-              padding: "8px 24px",
-              background: category === value ? "#f0f5ff" : "#fff",
-              border: `1px solid ${category === value ? "#3182ce" : "#eaeaea"}`,
-              color: category === value ? "#2b6cb0" : "#555",
-              fontWeight: category === value ? "600" : "500",
-              borderRadius: "30px",
-              whiteSpace: "nowrap",
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-            }}
+            className={`product-list-category-btn ${category === value ? "product-list-category-btn-active" : ""}`}
           >
             {value === "all" ? "Tất cả" : value}
           </button>
@@ -148,21 +122,20 @@ export default function ProductListPage({ query = "" }) {
 
       {/* Thanh thông tin kết quả + nhóm nút sắp xếp */}
       <div
-        className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center mb-4 p-3"
-        style={{ background: "#fff", borderRadius: "12px", border: "1px solid #f0f0f0" }}
+        className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center mb-4 p-3 product-list-toolbar"
       >
         {/* Số sản phẩm tìm được */}
-        <div style={{ opacity: 0.8, fontSize: "0.95rem", marginBottom: "12px", display: "flex", alignItems: "center" }}>
+        <div className="product-list-result-count">
           Tìm thấy <b className="mx-1">{filteredAndSorted.length}</b> sản phẩm phù hợp
         </div>
 
         {/* Nhóm nút sắp xếp */}
         <div className="d-flex flex-wrap align-items-center gap-3">
-          <span style={{ fontSize: "1rem", fontWeight: 700, color: "#222" }}>Sắp xếp theo</span>
-          <button onClick={() => { setSortBy("popular"); setPage(1); }} style={getSortBtnStyle(sortBy === "popular")}>Phổ biến</button>
-          <button onClick={() => { setSortBy("hot"); setPage(1); }} style={getSortBtnStyle(sortBy === "hot")}>Khuyến mãi HOT</button>
-          <button onClick={() => { setSortBy("price-asc"); setPage(1); }} style={getSortBtnStyle(sortBy === "price-asc")}>Giá thấp - cao</button>
-          <button onClick={() => { setSortBy("price-desc"); setPage(1); }} style={getSortBtnStyle(sortBy === "price-desc")}>Giá cao - thấp</button>
+          <span className="product-list-sort-label">Sắp xếp theo</span>
+          <button onClick={() => { setSortBy("popular"); setPage(1); }} className={`product-list-sort-btn ${sortBy === "popular" ? "product-list-sort-btn-active" : ""}`}>Phổ biến</button>
+          <button onClick={() => { setSortBy("hot"); setPage(1); }} className={`product-list-sort-btn ${sortBy === "hot" ? "product-list-sort-btn-active" : ""}`}>Khuyến mãi HOT</button>
+          <button onClick={() => { setSortBy("price-asc"); setPage(1); }} className={`product-list-sort-btn ${sortBy === "price-asc" ? "product-list-sort-btn-active" : ""}`}>Giá thấp - cao</button>
+          <button onClick={() => { setSortBy("price-desc"); setPage(1); }} className={`product-list-sort-btn ${sortBy === "price-desc" ? "product-list-sort-btn-active" : ""}`}>Giá cao - thấp</button>
         </div>
       </div>
 
@@ -186,13 +159,13 @@ export default function ProductListPage({ query = "" }) {
       {/* Phân trang — chỉ hiện khi có hơn 1 trang */}
       {totalPages > 1 && (
         <div className="d-flex justify-content-center align-items-center gap-2 mt-5">
-          <button className="btn btn-outline-secondary" onClick={() => setPage(1)} disabled={safePage === 1} style={{ borderRadius: "8px" }}>Đầu</button>
-          <button className="btn btn-outline-secondary" onClick={() => setPage((value) => Math.max(1, value - 1))} disabled={safePage === 1} style={{ borderRadius: "8px" }}>Trước</button>
-          <div className="mx-3" style={{ fontWeight: 600 }}>
-            Trang <span style={{ color: "#f76c85" }}>{safePage}</span> / {totalPages}
+          <button className="btn btn-outline-secondary product-list-page-btn" onClick={() => setPage(1)} disabled={safePage === 1}>Đầu</button>
+          <button className="btn btn-outline-secondary product-list-page-btn" onClick={() => setPage((value) => Math.max(1, value - 1))} disabled={safePage === 1}>Trước</button>
+          <div className="mx-3 product-list-page-info">
+            Trang <span className="product-list-page-current">{safePage}</span> / {totalPages}
           </div>
-          <button className="btn btn-outline-secondary" onClick={() => setPage((value) => Math.min(totalPages, value + 1))} disabled={safePage === totalPages} style={{ borderRadius: "8px" }}>Tiếp</button>
-          <button className="btn btn-outline-secondary" onClick={() => setPage(totalPages)} disabled={safePage === totalPages} style={{ borderRadius: "8px" }}>Cuối</button>
+          <button className="btn btn-outline-secondary product-list-page-btn" onClick={() => setPage((value) => Math.min(totalPages, value + 1))} disabled={safePage === totalPages}>Tiếp</button>
+          <button className="btn btn-outline-secondary product-list-page-btn" onClick={() => setPage(totalPages)} disabled={safePage === totalPages}>Cuối</button>
         </div>
       )}
     </div>
