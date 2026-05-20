@@ -7,10 +7,43 @@ const app = express();
 const PORT = Number.parseInt(process.env.PORT, 10) || 4000; // Cổng chạy server, mặc định là 4000
 const PORT_RETRY_COUNT = Number.parseInt(process.env.PORT_RETRY_COUNT, 10) || 10;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/pinkycloud";
+let cachedConnectionPromise = null;
+
+async function connectToDatabase() {
+  if (process.env.VERCEL === "1" && !process.env.MONGODB_URI) {
+    throw new Error("Missing MONGODB_URI environment variable.");
+  }
+
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+
+  if (!cachedConnectionPromise) {
+    cachedConnectionPromise = mongoose
+      .connect(MONGODB_URI, { serverSelectionTimeoutMS: 10000 })
+      .catch((error) => {
+        cachedConnectionPromise = null;
+        throw error;
+      });
+  }
+
+  await cachedConnectionPromise;
+  return mongoose.connection;
+}
 
 // --- MIDDLEWARE ---
 app.use(cors()); // Kích hoạt CORS để React gọi được API
 app.use(express.json()); // Cho phép Server đọc dữ liệu JSON từ request body
+
+app.use(async (_req, res, next) => {
+  try {
+    await connectToDatabase();
+    next();
+  } catch (error) {
+    console.error("Khong the ket noi MongoDB:", error);
+    res.status(500).json({ message: "Khong the ket noi co so du lieu." });
+  }
+});
 
 /**
  * Hàm hỗ trợ: Loại bỏ các trường mặc định của MongoDB (_id, __v)
@@ -333,8 +366,8 @@ function listenOnAvailablePort(startPort, retryCount) {
 
 async function startServer() {
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log("Đã kết nối cơ sở dữ liệu:", MONGODB_URI);
+    await connectToDatabase();
+    console.log("Da ket noi co so du lieu.");
 
     const { port } = await listenOnAvailablePort(PORT, PORT_RETRY_COUNT);
     console.log(`Server API đang chạy tại: http://localhost:${port}`);
@@ -344,7 +377,12 @@ async function startServer() {
   }
 }
 
-startServer().catch((error) => {
-  console.error("Không thể khởi động server:", error);
-  process.exit(1);
-});
+export { app, connectToDatabase, startServer };
+export default app;
+
+if (process.env.VERCEL !== "1") {
+  startServer().catch((error) => {
+    console.error("Không thể khởi động server:", error);
+    process.exit(1);
+  });
+}

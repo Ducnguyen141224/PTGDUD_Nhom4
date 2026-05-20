@@ -55,7 +55,7 @@ export default function ForgotPasswordModal({ onClose }) {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:4000/api/auth/reset-password", {
+      const res = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
