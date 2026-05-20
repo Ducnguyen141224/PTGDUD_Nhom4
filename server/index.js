@@ -31,6 +31,36 @@ async function connectToDatabase() {
   return mongoose.connection;
 }
 
+function getDatabaseErrorResponse(error) {
+  const message = String(error?.message || "");
+
+  if (message.includes("Missing MONGODB_URI")) {
+    return {
+      code: "MISSING_MONGODB_URI",
+      message: "Thieu bien moi truong MONGODB_URI tren Vercel.",
+    };
+  }
+
+  if (/authentication failed|bad auth|auth failed/i.test(message)) {
+    return {
+      code: "MONGODB_AUTH_FAILED",
+      message: "Sai username hoac password MongoDB Atlas trong MONGODB_URI.",
+    };
+  }
+
+  if (/timed out|server selection|querysrv|enotfound|econnrefused/i.test(message)) {
+    return {
+      code: "MONGODB_NETWORK_ERROR",
+      message: "Vercel chua ket noi duoc MongoDB Atlas. Kiem tra Atlas Network Access va MONGODB_URI.",
+    };
+  }
+
+  return {
+    code: "MONGODB_CONNECTION_ERROR",
+    message: "Khong the ket noi co so du lieu.",
+  };
+}
+
 // --- MIDDLEWARE ---
 app.use(cors()); // Kích hoạt CORS để React gọi được API
 app.use(express.json()); // Cho phép Server đọc dữ liệu JSON từ request body
@@ -41,7 +71,7 @@ app.use(async (_req, res, next) => {
     next();
   } catch (error) {
     console.error("Khong the ket noi MongoDB:", error);
-    res.status(500).json({ message: "Khong the ket noi co so du lieu." });
+    res.status(500).json(getDatabaseErrorResponse(error));
   }
 });
 
