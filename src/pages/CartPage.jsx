@@ -171,9 +171,6 @@ export default function CartPage() {
                                     <div className="cart-total-line">
                                         Tổng tiền: <span>{formatVnd(finalAmount)}</span>
                                     </div>
-                                    <button className="btn cart-checkout-btn" onClick={handleCheckout}>
-                                        Tiến hành đặt hàng
-                                    </button>
                                 </div>
                             </div>
                         </>
